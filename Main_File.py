@@ -1,13 +1,21 @@
 print("Let's work together on this project")
 
-input = input("Please enter a command: \n")
-if (input == "Start"):
-    i = 0
-    while i < 10:
-        print("Hello World")
-        i += 1
-else:
-    print("OK")
+user_input = input("Please enter a command: \n")
+
+while user_input.lower() != "stop":
+
+    match user_input:
+        case "Hello":
+            print("123")
+        case "Start":
+            i = 0
+            while i < 10:
+                if i == 9:
+                    print("Hello World #10")
+                else:
+                    print("Hello World")
+                i += 1
+    user_input = input("Please enter a command: \n")
 
 color_list = ["blue", "grey", "red"]
 dictionary = {
@@ -17,5 +25,5 @@ dictionary = {
     "year": 2005,
     "color_options": color_list
 }
-print(len(dictionary))
+print("Length of dictionary: " + str(len(dictionary)))
 
