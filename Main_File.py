@@ -22,7 +22,7 @@ dictionary = {
     "brand": "BMW",
     "model": "M3",
     "diesel": False,
-    "year": 2005,
+    "year": 2006,
     "color_options": color_list
 }
 print("Length of dictionary: " + str(len(dictionary)))
