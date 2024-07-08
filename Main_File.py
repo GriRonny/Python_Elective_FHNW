@@ -3,7 +3,6 @@ print("Let's work together on this project")
 user_input = input("Please enter a command: \n")
 
 while user_input.lower() != "stop":
-
     match user_input:
         case "Hello":
             print("123")
