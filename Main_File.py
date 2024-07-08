@@ -14,6 +14,8 @@ while user_input.lower() != "stop":
                 else:
                     print("Hello World")
                 i += 1
+        case _:
+            print("Default Case")
     user_input = input("Please enter a command: \n")
 
 color_list = ["blue", "grey", "red"]
