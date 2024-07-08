@@ -29,4 +29,6 @@ dictionary = {
 print("Length of dictionary: " + str(len(dictionary)))
 
 #this is bad code!
+#This is good code
+
 
