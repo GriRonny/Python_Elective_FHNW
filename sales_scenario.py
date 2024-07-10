@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-from main_dashboard import switch_view
+import main_dashboard
 
 
 class SalesScenario:
@@ -18,4 +18,4 @@ class SalesScenario:
             st.bar_chart(data=df["Sales"])
 
         if st.button("Go back to Analysis"):
-            switch_view('analysis')
+            main_dashboard.switch_view('analysis')
