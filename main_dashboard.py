@@ -81,8 +81,8 @@ elif st.session_state.view == 'customer':
     st.header("Customer Section")
     # Error Handling here? Because data might be empty?
 
-    if st.session_state.df is not None:
-        df = st.session_state.df
+    if st.session_state.df is not None: # Checking if session state df is not empty
+        df = st.session_state.df # assigning session state df to variable "df"
         st.bar_chart(np.histogram(df["Sales"], bins=10))
 
     # Sidebar with radio buttons
