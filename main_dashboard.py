@@ -89,7 +89,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"
 
-    customer_scenario.CustomerScenario().customer_logic()
+    customer_scenario.CustomerScenario().customer_logic() # Call customer logic method from CustomerScenario class
 
 elif st.session_state.view == 'market':
     st.header("Market Section")
