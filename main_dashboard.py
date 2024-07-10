@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 
+st.set_page_config(layout="wide")
 
 def load_csv(file):
     try:
@@ -21,7 +22,7 @@ def switch_view(view_name):
     st.rerun()  # Trigger rerun everytime function is called to update view accordingly.
 
 
-if st.session_state.view == 'upload':  # Here we display the "Upload" view if the session state == "upload"
+if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
     st.header("Upload CSV file")
     uploaded_csv = st.file_uploader("Choose a CSV file to be processed.", type="csv")
 
