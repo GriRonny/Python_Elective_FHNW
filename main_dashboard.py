@@ -40,5 +40,47 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
     st.header("Choose desired analysis scope")
     st.write("This is the analysis view.")
 
+    # Create three parallel sections
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.subheader("Section 1")
+        st.write("Short text for section 1.")
+        if st.button("Button 1"):
+            st.write("Button 1 clicked")
+            switch_view('customer')
+
+    with col2:
+        st.subheader("Section 2")
+        st.write("Short text for section 2.")
+        if st.button("Button 2"):
+            st.write("Button 2 clicked")
+            switch_view('market')
+
+    with col3:
+        st.subheader("Section 3")
+        st.write("Short text for section 3.")
+        if st.button("Button 3"):
+            st.write("Button 3 clicked")
+            switch_view('product')
+
     if st.button("Go back to Upload"):  # If this button is pressed, the user returns to the defined view.
         switch_view('upload')  # switch_view function called with parameter "upload"
+
+elif st.session_state.view == 'customer':
+    st.header("Customer Section")
+
+    if st.button("Go back to Analysis"):
+        switch_view('analysis')
+
+elif st.session_state.view == 'market':
+    st.header("Market Section")
+
+    if st.button("Go back to Analysis"):
+        switch_view('analysis')
+
+elif st.session_state.view == 'product':
+    st.header("Product Section")
+
+    if st.button("Go back to Analysis"):
+        switch_view('analysis')
