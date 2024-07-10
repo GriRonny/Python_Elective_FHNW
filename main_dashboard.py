@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import customer_scenario
+import sales_scenario
+import market_scenario
 
 st.set_page_config(page_title="Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
@@ -82,7 +84,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
         if st.button("Button 3"):
             st.write("Button 3 clicked")
-            switch_view('product')
+            switch_view('sales')
 
     if st.button("Go back to Upload"):  # If this button is pressed, the user returns to the defined view.
         switch_view('upload')  # switch_view function called with parameter "upload"
@@ -92,23 +94,9 @@ elif st.session_state.view == 'customer':  # Here we display the "Upload" view i
     customer_scenario.CustomerScenario().customer_logic() # Call customer logic method from CustomerScenario class
 
 elif st.session_state.view == 'market':
-    st.header("Market Section")
 
-    if st.session_state.df is not None:  # Checking if session state df is not empty
-        df = st.session_state.df  # assigning session state df to variable "df"
+    market_scenario.MarketScenario().market_logic()
 
-        st.bar_chart(data=df["Sales"])
+elif st.session_state.view == 'sales':
 
-    if st.button("Go back to Analysis"):
-        switch_view('analysis')
-
-elif st.session_state.view == 'product':
-    st.header("Product Section")
-
-    if st.session_state.df is not None:  # Checking if session state df is not empty
-        df = st.session_state.df  # assigning session state df to variable "df"
-
-        st.bar_chart(data=df["Sales"])
-
-    if st.button("Go back to Analysis"):
-        switch_view('analysis')
+    sales_scenario.SalesScenario().sales_logic()
