@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide")
+
 
 def load_csv(file):
     try:
