@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide", initial_sidebar_state="expanded")
 
@@ -30,6 +31,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
     if uploaded_csv is not None:
         df = load_csv(uploaded_csv)
         if df is not None:
+            st.session_state.df = df # Store dataframe in session state
             st.success("CSV file successfully loaded!")
             st.write(df)
             if st.button("Proceed to Analysis"):
@@ -77,6 +79,11 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':
     st.header("Customer Section")
+    # Error Handling here? Because data might be empty?
+
+    if st.session_state.df is not None:
+        df = st.session_state.df
+        st.bar_chart(np.histogram(df["Sales"], bins=10))
 
     # Sidebar with radio buttons
     with st.sidebar:
