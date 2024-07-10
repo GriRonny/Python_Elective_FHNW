@@ -45,21 +45,27 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
     with col1:
         st.subheader("Section 1")
-        st.write("Short text for section 1.")
+        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
         if st.button("Button 1"):
             st.write("Button 1 clicked")
             switch_view('customer')
 
     with col2:
         st.subheader("Section 2")
-        st.write("Short text for section 2.")
+        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
         if st.button("Button 2"):
             st.write("Button 2 clicked")
             switch_view('market')
 
     with col3:
         st.subheader("Section 3")
-        st.write("Short text for section 3.")
+        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
         if st.button("Button 3"):
             st.write("Button 3 clicked")
             switch_view('product')
