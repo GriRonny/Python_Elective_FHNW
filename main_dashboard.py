@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide", initial_sidebar_state="expanded")
 
 
 def load_csv(file):
@@ -77,6 +77,12 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':
     st.header("Customer Section")
+
+    with st.sidebar:
+        add_radio = st.radio(
+            "This is a radio button selection.",
+            ("Option 1", "Option 2", "Option 3")
+        )
 
     if st.button("Go back to Analysis"):
         switch_view('analysis')
