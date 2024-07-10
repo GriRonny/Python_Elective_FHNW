@@ -78,6 +78,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 elif st.session_state.view == 'customer':
     st.header("Customer Section")
 
+    # Sidebar with radio buttons
     with st.sidebar:
         add_radio = st.radio(
             "This is a radio button selection.",
