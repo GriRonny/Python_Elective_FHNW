@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import customer_scenario
 
 st.set_page_config(page_title="Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
@@ -88,44 +89,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"
 
-    st.header("Customer Section")
-    # Error Handling here? Because data might be empty?
-
-    if st.session_state.df is not None:  # Checking if session state df is not empty
-        df = st.session_state.df  # assigning session state df to variable "df"
-
-        # Sidebar with checkboxes for markets
-        with st.sidebar:
-            st.header("Filter by Market")
-            markets = df['Market'].unique()
-            selected_markets = [st.checkbox(market, key=market) for market in markets]
-
-        # Filter the DataFrame based on selected markets
-        filtered_df = df[df['Market'].isin([market for market, selected in zip(markets, selected_markets) if selected])]
-
-        # If no markets are selected, use the original DataFrame
-        if filtered_df.empty:
-            filtered_df = df
-
-        st.bar_chart(filtered_df["Sales"])
-
-        payment_counts = filtered_df['Payment Method'].value_counts().reset_index()
-        payment_counts.columns = ['Payment Method', 'Count']
-
-        # Display the bar chart
-        st.bar_chart(payment_counts.set_index('Payment Method'))
-    else:
-        st.error("No data loaded. Please upload a CSV file.")
-
-    # Sidebar with radio buttons
-    with st.sidebar:
-        add_radio = st.radio(
-            "This is a radio button selection.",
-            ("Option 1", "Option 2", "Option 3")
-        )
-
-    if st.button("Go back to Analysis"):
-        switch_view('analysis')
+    customer_scenario.CustomerScenario().customer_logic()
 
 elif st.session_state.view == 'market':
     st.header("Market Section")
