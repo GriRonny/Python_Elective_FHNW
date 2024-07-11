@@ -46,8 +46,10 @@ class CustomerScenario:
                 "This is a radio button selection.",
                 ("Option 1", "Option 2", "Option 3")
             )
+        with st.sidebar:
+            if st.button("Return to overview"):
+                main_dashboard.switch_view('analysis')
 
-        if st.button("Go back to Analysis"):
-            main_dashboard.switch_view('analysis')
+
 
 

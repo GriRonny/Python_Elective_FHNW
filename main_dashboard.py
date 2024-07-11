@@ -8,6 +8,7 @@ import market_scenario
 st.set_page_config(page_title="Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
 
+# this method just loads the csv file we upload using Pandas
 def load_csv(file):
     try:
         return pd.read_csv(file)
@@ -18,6 +19,7 @@ def load_csv(file):
 
 
 # Initialize session state
+# 'View is are session_state object name, and we assign the default value 'upload' at the beginning
 if 'view' not in st.session_state:
     st.session_state.view = 'upload'  # Create default view
 
@@ -30,12 +32,10 @@ def switch_view(view_name):
 
 if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
 
-    st.header("Upload CSV file")
+    st.header("Welcome to our data our dashboard :sunglasses:")
 
-    st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+    st.write("First, select the latest global_superstore.csv file. \n"
+             "\nNext, enjoy our dashboard that we created!:fire:")
 
     uploaded_csv = st.file_uploader("Choose a CSV file to be processed.", type="csv")
 
@@ -45,7 +45,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
             st.session_state.df = df  # Store dataframe in session state
             st.success("CSV file successfully loaded!")
             st.write(df)
-            if st.button("Proceed to Analysis"):
+            if st.button("Start analysing!"):
                 switch_view('analysis')  # Call function to create "analysis" view and update view
         else:
             st.error("Failed to load CSV file.")
@@ -53,14 +53,14 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
         st.info("Please upload a CSV file.")
 
 elif st.session_state.view == 'analysis':  # Here we display the "Upload" view if the session state == "analysis"
-    st.header("Choose desired analysis scope")
-    st.write("This is the analysis view.")
+    st.header("Choose what you want to analyse!")
+    st.write("Below are the different analyses.")
 
     # Create three parallel sections
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.subheader("Section 1")
+        st.subheader("Customer Behaviour")
         st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
@@ -91,7 +91,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"
 
-    customer_scenario.CustomerScenario().customer_logic() # Call customer logic method from CustomerScenario class
+    customer_scenario.CustomerScenario().customer_logic()  # Call customer logic method from CustomerScenario class
 
 elif st.session_state.view == 'market':
 
