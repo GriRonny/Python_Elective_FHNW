@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
 import main_dashboard
 
 
@@ -29,6 +28,7 @@ class CustomerScenario:
             # If no markets are selected, use the original DataFrame
             if filtered_df.empty:
                 filtered_df = df
+
 
             st.bar_chart(filtered_df["Sales"])
 
