@@ -46,8 +46,8 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
             # Check if each required column is in file. If not, add it to this list.
             missing_columns = [col for col in REQUIRED_COLUMNS if col not in df_check.columns]
             if missing_columns:
-                st.error(f"Missing columns: {', '.join(missing_columns)}. Please check your .csv file.")
-                return None
+                st.error(f"Missing columns: {', '.join(missing_columns)}. Please check your CSV file.")
+                return None  # Return an empty df
             else:
                 return df_check
 
@@ -110,7 +110,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"
 
-    customer_scenario.CustomerScenario().customer_logic() # Call customer logic method from CustomerScenario class
+    customer_scenario.CustomerScenario().customer_logic()  # Call customer logic method from CustomerScenario class
 
 elif st.session_state.view == 'market':
 
