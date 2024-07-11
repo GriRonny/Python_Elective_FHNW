@@ -49,7 +49,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
                 st.error(f"Missing columns: {', '.join(missing_columns)}. Please check your CSV file.")
                 return None  # Return an empty df
             else:
-                return df_check
+                return df_check  # Return valid df
 
         except Exception as e:
             st.error("Something went wrong while uploading your file.")
