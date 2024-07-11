@@ -5,16 +5,8 @@ import customer_scenario
 import sales_scenario
 import market_scenario
 
-st.set_page_config(page_title="Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
-
-def load_csv(file):
-    try:
-        return pd.read_csv(file)
-    except Exception as e:
-        st.error(f"Error loading CSV file: {e}")
-        st.error("Something went wrong")
-        return None
+st.set_page_config(page_title="Business Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
 
 # Initialize session state
@@ -28,6 +20,8 @@ def switch_view(view_name):
     st.rerun()  # Trigger rerun everytime function is called to update view accordingly.
 
 
+st.session_state.switch_view = switch_view  # Make switch_view function accessible from outside
+
 if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
 
     st.header("Upload CSV file")
@@ -37,10 +31,35 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
 
+    # Define required columns as a constant variable
+    REQUIRED_COLUMNS = [
+        "Order Date", "Ship Date", "Ship Mode", "Customer Name", "Customer DOB", "Segment", "City", "State", "Country",
+        "Postal Code", "Market", "Region", "Product ID", "Category", "Sub-Category", "Product Name", "Sales",
+        "Quantity",
+        "Discount", "Profit", "Shipping Cost", "Order Priority", "Payment Method"
+    ]
+
+    def load_csv(file):
+        try:
+            df_check = pd.read_csv(file)
+
+            # Check if each required column is in file. If not, add it to this list.
+            missing_columns = [col for col in REQUIRED_COLUMNS if col not in df_check.columns]
+            if missing_columns:
+                st.error(f"Missing columns: {', '.join(missing_columns)}. Please check your .csv file.")
+                return None
+            else:
+                return df_check
+
+        except Exception as e:
+            st.error("Something went wrong while uploading your file.")
+            print(f"Error loading CSV file: {e}")
+            return None
+
     uploaded_csv = st.file_uploader("Choose a CSV file to be processed.", type="csv")
 
     if uploaded_csv is not None:
-        df = load_csv(uploaded_csv)
+        df = load_csv(uploaded_csv)  # Call load_csv method with .csv from file uploader as parameter
         if df is not None:
             st.session_state.df = df  # Store dataframe in session state
             st.success("CSV file successfully loaded!")

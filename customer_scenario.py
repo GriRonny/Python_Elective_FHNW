@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import main_dashboard
 
 
 class CustomerScenario:
@@ -48,6 +47,6 @@ class CustomerScenario:
             )
 
         if st.button("Go back to Analysis"):
-            main_dashboard.switch_view('analysis')
+            st.session_state.switch_view('analysis')
 
 
