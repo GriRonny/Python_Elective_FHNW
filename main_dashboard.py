@@ -1,10 +1,8 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import customer_scenario
 import sales_scenario
 import market_scenario
-
 
 st.set_page_config(page_title="Business Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
@@ -110,7 +108,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"
 
-    customer_scenario.CustomerScenario().customer_logic()  # Call customer logic method from CustomerScenario class
+    customer_scenario.customer_logic()  # Call customer logic method from CustomerScenario class
 
 elif st.session_state.view == 'market':
 
