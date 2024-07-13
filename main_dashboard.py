@@ -6,7 +6,6 @@ import market_scenario
 
 st.set_page_config(page_title="Business Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
-
 # Initialize session state
 if 'view' not in st.session_state:
     st.session_state.view = 'upload'  # Create default view
@@ -22,12 +21,10 @@ st.session_state.switch_view = switch_view  # Make switch_view function accessib
 
 if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
 
-    st.header("Upload CSV file")
+    st.header("Welcome to our dashboard :eggplant:")
 
-    st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+    st.write("First, select the latest global_superstore.csv file. \n"
+             "\nNext, enjoy our dashboard that we created!:fire:")
 
     # Define required columns as a constant variable
     REQUIRED_COLUMNS = [
@@ -36,6 +33,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
         "Quantity",
         "Discount", "Profit", "Shipping Cost", "Order Priority", "Payment Method"
     ]
+
 
     def load_csv(file):
         try:
@@ -54,6 +52,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
             print(f"Error loading CSV file: {e}")
             return None
 
+
     uploaded_csv = st.file_uploader("Choose a CSV file to be processed.", type="csv")
 
     if uploaded_csv is not None:
@@ -62,7 +61,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
             st.session_state.df = df  # Store dataframe in session state
             st.success("CSV file successfully loaded!")
             st.write(df)
-            if st.button("Proceed to Analysis"):
+            if st.button("Start analysing!"):
                 switch_view('analysis')  # Call function to create "analysis" view and update view
         else:
             st.error("Failed to load CSV file.")
@@ -70,36 +69,34 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
         st.info("Please upload a CSV file.")
 
 elif st.session_state.view == 'analysis':  # Here we display the "Upload" view if the session state == "analysis"
-    st.header("Choose desired analysis scope")
-    st.write("This is the analysis view.")
+    st.header("Choose what you want to analyse!:chart_with_upwards_trend:")
+    st.write("Below are the different analyses.")
 
     # Create three parallel sections
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.subheader("Section 1")
+        st.subheader("Custom Analytics")
         st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
-        if st.button("Button 1"):
-            st.write("Button 1 clicked")
+        if st.button("Start analysing", key="button1"):
             switch_view('customer')
 
     with col2:
-        st.subheader("Section 2")
+        st.subheader("Market Analytics")
         st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
-        if st.button("Button 2"):
-            st.write("Button 2 clicked")
+        if st.button("Start analysing", key="button2"):
             switch_view('market')
 
     with col3:
-        st.subheader("Section 3")
+        st.subheader("Sales Analytics")
         st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
-        if st.button("Button 3"):
+        if st.button("Start analysing", key="button3"):
             st.write("Button 3 clicked")
             switch_view('sales')
 
@@ -112,7 +109,7 @@ elif st.session_state.view == 'customer':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'market':
 
-    market_scenario.MarketScenario().market_logic()
+    market_scenario.market_logic()
 
 elif st.session_state.view == 'sales':
 

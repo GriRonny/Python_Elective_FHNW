@@ -63,9 +63,9 @@ def customer_logic():
     else:
         st.error("No data loaded. Please upload a CSV file.")
 
-    # Sidebar with radio buttons
-    if st.button("Go back to Analysis"):
-        st.session_state.switch_view('analysis')
+    with st.sidebar:
+        if st.button("Return to overview"):
+            st.session_state.switch_view('analysis')
 
 
 class CustomerScenario:
