@@ -1,25 +1,13 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import customer_scenario
 import sales_scenario
 import market_scenario
 
-st.set_page_config(page_title="Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
-
-
-# this method just loads the csv file we upload using Pandas
-def load_csv(file):
-    try:
-        return pd.read_csv(file)
-    except Exception as e:
-        st.error(f"Error loading CSV file: {e}")
-        st.error("Something went wrong")
-        return None
+st.set_page_config(page_title="Business Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
 
 # Initialize session state
-# 'View is are session_state object name, and we assign the default value 'upload' at the beginning
 if 'view' not in st.session_state:
     st.session_state.view = 'upload'  # Create default view
 
@@ -30,22 +18,51 @@ def switch_view(view_name):
     st.rerun()  # Trigger rerun everytime function is called to update view accordingly.
 
 
+st.session_state.switch_view = switch_view  # Make switch_view function accessible from outside
+
 if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
 
-    st.header("Welcome to our data our dashboard :sunglasses:")
+    st.header("Upload CSV file")
 
-    st.write("First, select the latest global_superstore.csv file. \n"
-             "\nNext, enjoy our dashboard that we created!:fire:")
+    st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+
+    # Define required columns as a constant variable
+    REQUIRED_COLUMNS = [
+        "Order Date", "Ship Date", "Ship Mode", "Customer Name", "Customer DOB", "Segment", "City", "State", "Country",
+        "Postal Code", "Market", "Region", "Product ID", "Category", "Sub-Category", "Product Name", "Sales",
+        "Quantity",
+        "Discount", "Profit", "Shipping Cost", "Order Priority", "Payment Method"
+    ]
+
+    def load_csv(file):
+        try:
+            df_check = pd.read_csv(file)
+
+            # Check if each required column is in file. If not, add it to this list.
+            missing_columns = [col for col in REQUIRED_COLUMNS if col not in df_check.columns]
+            if missing_columns:
+                st.error(f"Missing columns: {', '.join(missing_columns)}. Please check your CSV file.")
+                return None  # Return an empty df
+            else:
+                return df_check  # Return valid df
+
+        except Exception as e:
+            st.error("Something went wrong while uploading your file.")
+            print(f"Error loading CSV file: {e}")
+            return None
 
     uploaded_csv = st.file_uploader("Choose a CSV file to be processed.", type="csv")
 
     if uploaded_csv is not None:
-        df = load_csv(uploaded_csv)
+        df = load_csv(uploaded_csv)  # Call load_csv method with .csv from file uploader as parameter
         if df is not None:
             st.session_state.df = df  # Store dataframe in session state
             st.success("CSV file successfully loaded!")
             st.write(df)
-            if st.button("Start analysing!"):
+            if st.button("Proceed to Analysis"):
                 switch_view('analysis')  # Call function to create "analysis" view and update view
         else:
             st.error("Failed to load CSV file.")
@@ -53,14 +70,14 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
         st.info("Please upload a CSV file.")
 
 elif st.session_state.view == 'analysis':  # Here we display the "Upload" view if the session state == "analysis"
-    st.header("Choose what you want to analyse!")
-    st.write("Below are the different analyses.")
+    st.header("Choose desired analysis scope")
+    st.write("This is the analysis view.")
 
     # Create three parallel sections
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.subheader("Customer Behaviour")
+        st.subheader("Section 1")
         st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
@@ -91,7 +108,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"
 
-    customer_scenario.CustomerScenario().customer_logic()  # Call customer logic method from CustomerScenario class
+    customer_scenario.customer_logic()  # Call customer logic method from CustomerScenario class
 
 elif st.session_state.view == 'market':
 
