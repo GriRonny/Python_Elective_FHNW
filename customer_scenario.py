@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
-from datetime import datetime, timedelta
 
 
 def customer_logic():
@@ -15,15 +14,16 @@ def customer_logic():
 
         # Sidebar for Segment Filter
         with st.sidebar:
-            st.header("Filter by Customer Segment")
+            st.header("Filter here")
+            st.subheader("Filter by Customer Segment")
             seg_type = df['Segment'].unique()
             selected_seg = [st.checkbox(segment, key=segment) for segment in seg_type]
 
-        # Create lists of selected markets and segments
+        # Create lists of selected segments
         selected_segment_list = [segment for segment, selected in zip(seg_type, selected_seg) if selected]
 
         # sidebar menu to select years
-        with st.sidebar.header('Select relevant year'):
+        with st.sidebar.subheader('Select relevant year'):
             # Ensure the sales date column is in datetime format
             df['Order Date'] = pd.to_datetime(df['Order Date'])
 
@@ -40,7 +40,7 @@ def customer_logic():
         if selected_segment_list and year_select:
             filtered_df = df[
                 (df['Segment'].isin(selected_segment_list) & df['Order Year'].isin(year_select))
-                ]
+            ]
         elif selected_segment_list:
             filtered_df = df[df['Segment'].isin(selected_segment_list)]
         elif year_select:
@@ -51,15 +51,30 @@ def customer_logic():
         payment_counts = filtered_df['Payment Method'].value_counts().reset_index()
         payment_counts.columns = ['Payment Method', 'Count']
 
+        # Code to identify best customers
+        most_profitable_cus = filtered_df.groupby('Customer Name')['Profit'].sum().reset_index()
+        top_profitable_cus = most_profitable_cus.sort_values(by='Profit', ascending=False).head(3)
+
+        # Code to identify the worst customers
+        least_profitable_cus = filtered_df.groupby('Customer Name')['Profit'].sum().reset_index()
+        top_worst_cus = least_profitable_cus.sort_values(by='Profit', ascending=True).head(3)
+
+        # Displaying best and worst customers
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.subheader("Most profitable customers:+1:")
+            st.write(top_profitable_cus)
+
+        with col2:
+            st.subheader("Least profitable customers:-1:")
+            st.write(top_worst_cus)
+
         # Add a title above the bar chart
-        st.subheader("Payment Method Count Distribution")
+        st.subheader("Favored payment method of all customers :credit_card:")
 
         # Display the bar chart
         st.bar_chart(payment_counts.set_index('Payment Method'))
-
-        # Code to identify best customers
-
-
 
     else:
         st.error("No data loaded. Please upload a CSV file.")
