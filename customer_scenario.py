@@ -22,6 +22,15 @@ def customer_logic():
         # Create lists of selected segments
         selected_segment_list = [segment for segment, selected in zip(seg_type, selected_seg) if selected]
 
+        # Create sidebar menu for gender selection
+        with st.sidebar:
+            st.subheader("Filter Gender")
+            gender_type = df['Gender'].unique()
+            selected_gender = [st.checkbox(gender, key=gender) for gender in gender_type]
+
+        # Create lists of selected gender
+        selected_gender_list = [gender for gender, selected in zip(gender_type, selected_gender) if selected]
+
         # sidebar menu to select years
         with st.sidebar.subheader('Select relevant year'):
             # Ensure the sales date column is in datetime format
@@ -36,15 +45,36 @@ def customer_logic():
             # create sidebar selection with the years
             year_select = st.sidebar.multiselect('Select Year', options=unique_years)
 
-        # Filter the DataFrame based on selected segment and year
-        if selected_segment_list and year_select:
+        # Filter the DataFrame based on selected segment, year, and gender
+        if selected_segment_list and year_select and selected_gender_list:
+            filtered_df = df[
+                (df['Segment'].isin(selected_segment_list) & df['Order Year'].isin(year_select)
+                 & df['Gender'].isin(selected_gender_list))
+            ]
+        elif selected_segment_list and year_select:
             filtered_df = df[
                 (df['Segment'].isin(selected_segment_list) & df['Order Year'].isin(year_select))
             ]
+
+        elif selected_segment_list and selected_gender_list:
+            filtered_df = df[
+                (df['Segment'].isin(selected_segment_list) & df['Gender'].isin(selected_gender_list))
+            ]
+
+        elif selected_gender_list and year_select:
+            filtered_df = df[
+                (df['Order Year'].isin(year_select)
+                 & df['Gender'].isin(selected_gender_list))
+            ]
         elif selected_segment_list:
             filtered_df = df[df['Segment'].isin(selected_segment_list)]
+
         elif year_select:
             filtered_df = df[df['Order Year'].isin(year_select)]
+
+        elif selected_gender_list:
+            filtered_df = df[df['Gender'].isin(selected_gender_list)]
+
         else:
             filtered_df = df  # If no filters selected, use original/unfiltered df
 
