@@ -78,34 +78,34 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
 
     with col1:
         st.subheader("Customer Analytics")
-        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+        st.write("- Identify most/least profitable customers \n"
+                 "- Gain insights about payment methods \n"
+                 "- Interactively filter the data")
         if st.button("Start analysing", key="button1"):
             switch_view('customer')
 
     with col2:
         st.subheader("Market Analytics")
-        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+        st.write("- Identify most/least profitable customers \n"
+                 "- Gain insights about payment methods \n"
+                 "- Interactively filter the data")
         if st.button("Start analysing", key="button2"):
             switch_view('market')
 
     with col3:
         st.subheader("Sales Analytics")
-        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+        st.write("- Identify most/least profitable customers \n"
+                 "- Gain insights about payment methods \n"
+                 "- Interactively filter the data")
         if st.button("Start analysing", key="button3"):
             st.write("Button 3 clicked")
             switch_view('sales')
 
     with col4:
         st.subheader("Profitability Analytics")
-        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+        st.write("- Identify most/least profitable customers \n"
+                 "- Gain insights about payment methods \n"
+                 "- Interactively filter the data")
         if st.button("Start analysing", key="button4"):
             switch_view('profit')
 
