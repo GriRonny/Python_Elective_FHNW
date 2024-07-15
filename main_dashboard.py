@@ -3,6 +3,7 @@ import pandas as pd
 import customer_scenario
 import sales_scenario
 import market_scenario
+import profitability_scenario
 
 st.set_page_config(page_title="Business Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
 
@@ -73,7 +74,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
     st.write("Below are the different analyses.")
 
     # Create three parallel sections
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.subheader("Customer Analytics")
@@ -100,6 +101,14 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
             st.write("Button 3 clicked")
             switch_view('sales')
 
+    with col4:
+        st.subheader("Profitability Analytics")
+        st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
+        if st.button("Start analysing", key="button4"):
+            switch_view('profit')
+
     if st.button("Go back to Upload"):  # If this button is pressed, the user returns to the defined view.
         switch_view('upload')  # switch_view function called with parameter "upload"
 
@@ -114,3 +123,6 @@ elif st.session_state.view == 'market':
 elif st.session_state.view == 'sales':
 
     sales_scenario.SalesScenario().sales_logic()
+
+elif st.session_state.view == 'profit':
+    profitability_scenario.profit_logic()

@@ -14,7 +14,7 @@ def customer_logic():
 
         # Sidebar for Segment Filter
         with st.sidebar:
-            st.header("Filter here")
+            st.header("Please Filter Here")
             st.subheader("Filter by Customer Segment")
             seg_type = df['Segment'].unique()
             selected_seg = [st.checkbox(segment, key=segment) for segment in seg_type]
@@ -34,7 +34,7 @@ def customer_logic():
             unique_years = df['Order Year'].unique()
 
             # create sidebar selection with the years
-            year_select = st.sidebar.multiselect('Select Year', options=unique_years, default=unique_years.min())
+            year_select = st.sidebar.multiselect('Select Year', options=unique_years)
 
         # Filter the DataFrame based on selected segment and year
         if selected_segment_list and year_select:
