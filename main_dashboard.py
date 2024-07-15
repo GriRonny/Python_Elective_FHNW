@@ -76,7 +76,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.subheader("Custom Analytics")
+        st.subheader("Customer Analytics")
         st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in."
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in.")
