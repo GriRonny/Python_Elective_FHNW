@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
+import matplotlib.pyplot as plt
 
 
 def customer_logic():
@@ -83,11 +84,11 @@ def customer_logic():
 
         # Code to identify best customers
         most_profitable_cus = filtered_df.groupby('Customer Name')['Profit'].sum().reset_index()
-        top_profitable_cus = most_profitable_cus.sort_values(by='Profit', ascending=False).head(3)
+        top_profitable_cus = most_profitable_cus.sort_values(by='Profit', ascending=False).head(5)
 
         # Code to identify the worst customers
         least_profitable_cus = filtered_df.groupby('Customer Name')['Profit'].sum().reset_index()
-        top_worst_cus = least_profitable_cus.sort_values(by='Profit', ascending=True).head(3)
+        top_worst_cus = least_profitable_cus.sort_values(by='Profit', ascending=True).head(5)
 
         # Displaying best and worst customers
         col1, col2 = st.columns(2)
@@ -103,8 +104,19 @@ def customer_logic():
         # Add a title above the bar chart
         st.subheader("Favored payment method of all customers :credit_card:")
 
-        # Display the bar chart
-        st.bar_chart(payment_counts.set_index('Payment Method'))
+        col3, col4 = st.columns(2)
+        with col3:
+            # Display the bar chart
+            st.bar_chart(payment_counts.set_index('Payment Method'))
+
+        with col4:
+            # Display a pie chart of to visualize the payment method distribution
+            fig, ax = plt.subplots()
+            ax.pie(payment_counts['Count'], labels=payment_counts['Payment Method'], autopct='%1.1f%%', startangle=90)
+            ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+            # Display the pie chart in Streamlit
+            st.pyplot(fig)
 
     else:
         st.error("No data loaded. Please upload a CSV file.")
