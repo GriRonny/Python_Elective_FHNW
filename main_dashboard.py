@@ -81,32 +81,41 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
         st.write("- Identify most/least profitable customers \n"
                  "- Gain insights about payment methods \n"
                  "- Interactively filter the data")
-        if st.button("Start analysing", key="button1"):
-            switch_view('customer')
+
 
     with col2:
         st.subheader("Market Analytics")
-        st.write("- Identify most/least profitable customers \n"
-                 "- Gain insights about payment methods \n"
-                 "- Interactively filter the data")
-        if st.button("Start analysing", key="button2"):
-            switch_view('market')
+        st.write("- Compare total sales per market \n"
+                 "- Compare mean sales per market \n"
+                 "- Filter the data by desired market"
+                 )
+
 
     with col3:
         st.subheader("Sales Analytics")
         st.write("- Identify most/least profitable customers \n"
                  "- Gain insights about payment methods \n"
                  "- Interactively filter the data")
-        if st.button("Start analysing", key="button3"):
-            st.write("Button 3 clicked")
-            switch_view('sales')
 
     with col4:
         st.subheader("Profitability Analytics")
         st.write("- Identify most/least profitable customers \n"
                  "- Gain insights about payment methods \n"
                  "- Interactively filter the data")
-        if st.button("Start analysing", key="button4"):
+
+    # Columns to display the buttons that switch to the respective analytics view
+    col5, col6, col7, col8 = st.columns(4)
+    with col5:
+        if st.button("Start analysing", key="button5"):
+            switch_view('customer')
+    with col6:
+        if st.button("Start analysing", key="button6"):
+            switch_view('market')
+    with col7:
+        if st.button("Start analysing", key="button7"):
+            switch_view('sales')
+    with col8:
+        if st.button("Start analysing", key="button8"):
             switch_view('profit')
 
     if st.button("Go back to Upload"):  # If this button is pressed, the user returns to the defined view.
