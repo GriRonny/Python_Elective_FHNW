@@ -15,9 +15,20 @@ class SalesScenario:
 
             st.bar_chart(data=df["Sales"])
 
+            # As long as date is in "Order Date" column, add/append to new list "order_dates" (List Comprehension)
+            order_dates = [date for date in df["Order Date"].unique()]
+
+            # Convert dates using Pandas (.date used to convert to only dates (no time-stamps))
+            order_dates_form = pd.to_datetime(order_dates).date
+
+            # Sidebar for Sales Scenario
+            with st.sidebar:
+                st.header("Filter options:")
+                st.slider("Order Date", min_value=order_dates_form.min(), max_value=order_dates_form.max(),
+                          value=(order_dates_form.min(), order_dates_form.max()))
+
             # This groups the df by country and appends aggregates of one or more columns
             sales_summary = df.groupby('Country').agg({'Sales': 'sum', 'Profit': 'mean'}).reset_index()
-            #sales_summary = df.groupby('Country')['Sales'].sum().reset_index()  # needed because return must be columns
 
             # Rename columns (not working just now)
             #sales_summary.rename(columns={'Sales': 'Total Sales', 'Profit': 'Mean Profit'}, inplace=True)
