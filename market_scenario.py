@@ -12,6 +12,7 @@ def market_logic():
 
         # Sidebar with checkboxes for markets
         st.sidebar.header("Please Filter Here:")
+        # "market" is a list of Strings
         market = st.sidebar.multiselect(
             "Select Markets:",
             options=df['Market'].unique(),
@@ -19,6 +20,7 @@ def market_logic():
         )
 
         # NEW LOGIC TO FILTER THE DATA USING QUERY() FUNCTION!
+        # Select all datapoints where column "Market" of DF has matches with contents of local variable "market"
         df_filtered_market = df.query("Market == @market")
 
         countries = st.sidebar.multiselect(
@@ -61,7 +63,7 @@ def market_logic():
             st.altair_chart(avg_sales_chart, use_container_width=True)
 
         if df_filtered_countries.empty:
-            st.header("First select a country to further analyse the sales by product category:")
+            st.header("First select a country to further analyse the sales by product category.")
 
         else:
             chart_title = f"Total Sales by Category for Country: {countries}"
