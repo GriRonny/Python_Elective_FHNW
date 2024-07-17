@@ -10,6 +10,10 @@ def profit_logic():
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # assigning session state df to variable "df"
 
+        st.info("We could create age groups and then use a slider to slide through the profits that were gained per age group"
+                )
+        st.info("We could only use pandas to achieve this and further display our knowledge about the pandas")
+
     else:
         st.error("No data loaded. Please upload a CSV file.")
 
