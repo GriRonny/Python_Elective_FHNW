@@ -20,7 +20,7 @@ def market_logic():
         )
 
         # NEW LOGIC TO FILTER THE DATA USING QUERY() FUNCTION!
-        # Select all datapoints where column "Market" of DF has matches with contents of local variable "market"
+        # Select all data points where column "Market" of DF has matches with contents of local variable "market"
         df_filtered_market = df.query("Market == @market")
 
         countries = st.sidebar.multiselect(
@@ -34,36 +34,49 @@ def market_logic():
         # Creating two columns for the
         col1, col2 = st.columns(2)
         with col1:
-            # --- BARCHART_SALES ---
-            sales_chart = alt.Chart(df_filtered_market).mark_bar().encode(
-                x=alt.X('Market:O', sort='-y', title='Market'),
-                y=alt.Y('sum(Sales):Q', title='Total Sales'),
-                color='Market:N',
-                tooltip=['Market', 'sum(Sales)']  # Displayed when hovering over a bar
-            ).properties(
-                width=600,
-                height=400,
-                title='Total Sales by Market'
-            )
 
-            st.altair_chart(sales_chart, use_container_width=True)
+            # If no markets are selected, a warning will be displayed
+            if df_filtered_market.empty:
+                st.warning("No Markets Filtered")
+
+            else:
+                # --- BARCHART_SALES ---
+                sales_chart = alt.Chart(df_filtered_market).mark_bar().encode(
+                    x=alt.X('Market:O', sort='-y', title='Market'),
+                    y=alt.Y('sum(Sales):Q', title='Total Sales'),
+                    color='Market:N',
+                    tooltip=['Market', 'sum(Sales)']  # Displayed when hovering over a bar
+                ).properties(
+                    width=600,
+                    height=400,
+                    title='Total Sales by Market'
+                )
+
+                st.altair_chart(sales_chart, use_container_width=True)
 
         with col2:
-            avg_sales_chart = alt.Chart(df_filtered_market).mark_bar().encode(
-                x=alt.X('Market:O', sort='-y', title='Market'),
-                y=alt.Y('mean(Sales):Q', title='Average Sales'),
-                color='Market:N',
-                tooltip=['Market', 'mean(Sales)']  # Displayed when hovering over a bar
-            ).properties(
-                width=600,
-                height=400,
-                title='Average Total Sales by Market'
-            )
 
-            st.altair_chart(avg_sales_chart, use_container_width=True)
+            # If no markets are selected, a warning will be displayed
+            if df_filtered_market.empty:
+                st.warning("No Markets Filtered")
 
+            else:
+                avg_sales_chart = alt.Chart(df_filtered_market).mark_bar().encode(
+                    x=alt.X('Market:O', sort='-y', title='Market'),
+                    y=alt.Y('mean(Sales):Q', title='Average Sales'),
+                    color='Market:N',
+                    tooltip=['Market', 'mean(Sales)']  # Displayed when hovering over a bar
+                ).properties(
+                    width=600,
+                    height=400,
+                    title='Average Total Sales by Market'
+                )
+
+                st.altair_chart(avg_sales_chart, use_container_width=True)
+
+        # If no countries are selected, a info will be displayed
         if df_filtered_countries.empty:
-            st.header("First select a country to further analyse the sales by product category.")
+            st.info("Select a country to analyze the sales by product category for the selected country")
 
         else:
             chart_title = f"Total Sales by Category for Country: {countries}"

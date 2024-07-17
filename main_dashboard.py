@@ -62,7 +62,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
             st.session_state.df = df  # Store dataframe in session state
             st.success("CSV file successfully loaded!")
             st.write(df)
-            if st.button("Start Analysing!"):
+            if st.button("Start Analysing"):
                 switch_view('analysis')  # Call function to create "analysis" view and update view
         else:
             st.error("Failed to load CSV file.")
