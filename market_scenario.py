@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import altair as alt
 
 
@@ -19,9 +18,21 @@ def market_logic():
             default=df['Market'].unique()
         )
 
+        # Code for the Year filter
+        # Ensure the sales date column is in datetime format
+        df['Order Date'] = pd.to_datetime(df['Order Date'])
+
+        # Extract the year from the sales date
+        df['Order Year'] = df['Order Date'].dt.year
+
+        # Get unique sales years
+        unique_years = df['Order Year'].unique()
+        # create sidebar selection with the years
+        year_select = st.sidebar.multiselect('Select Year:', options=unique_years, default=unique_years)
+
         # NEW LOGIC TO FILTER THE DATA USING QUERY() FUNCTION!
         # Select all data points where column "Market" of DF has matches with contents of local variable "market"
-        df_filtered_market = df.query("Market == @market")
+        df_filtered_market = df.query("Market == @market & @df['Order Year'] == @year_select")
 
         countries = st.sidebar.multiselect(
             "Select a country:",
@@ -36,13 +47,12 @@ def market_logic():
         # --- CODE FOR THE CHARTS ---
         # Creating two columns for the
         col1, col2 = st.columns(2)
-        with col1:
 
-            # If no markets are selected, a warning will be displayed
-            if df_filtered_market.empty:
-                st.warning("No Markets Filtered")
+        if df_filtered_market.empty:
+            st.warning("No markets or year selected")
 
-            else:
+        else:
+            with col1:
                 # --- BARCHART_SALES ---
                 sales_chart = alt.Chart(df_filtered_market).mark_bar().encode(
                     x=alt.X('Market:O', sort='-y', title='Market'),
@@ -57,13 +67,7 @@ def market_logic():
 
                 st.altair_chart(sales_chart, use_container_width=True)
 
-        with col2:
-
-            # If no markets are selected, a warning will be displayed
-            if df_filtered_market.empty:
-                st.warning("No Markets Filtered")
-
-            else:
+            with col2:
                 avg_sales_chart = alt.Chart(df_filtered_market).mark_bar().encode(
                     x=alt.X('Market:O', sort='-y', title='Market'),
                     y=alt.Y('mean(Sales):Q', title='Average Sales'),
@@ -82,15 +86,16 @@ def market_logic():
             st.info("Select a country to analyze the sales by product category for the selected country")
 
         else:
+            st.header(f"Country specific analysis for {country_str}")
             # Columns for the two subsequent charts
             col3, col4 = st.columns(2)
 
             with col3:
-                chart_title = f"Total Sales by Category for {country_str}"
+                chart_title = f"Sales by Category for {country_str}"
                 # --- BARCHART_SALES_PER_CATEGORY ---
                 sales_category = alt.Chart(df_filtered_countries).mark_bar().encode(
                     x=alt.X('Category:O', sort='-y', title='Category'),
-                    y=alt.Y('sum(Sales):Q', title='Total Sales per Category'),
+                    y=alt.Y('sum(Sales):Q', title='Sales per Category'),
                     color='Category:N',
                     tooltip=['Category', 'sum(Sales)']  # Displayed when hovering over a bar
                 ).properties(
@@ -103,10 +108,10 @@ def market_logic():
 
             with col4:
                 # --- BARCHART_SALES_PER_SUB_CATEGORY ---
-                chart_title_2 = f"Total Sales by Sub-Category for {country_str}"
+                chart_title_2 = f"Sales by Sub-Category for {country_str}"
                 sales_sub_category = alt.Chart(df_filtered_countries).mark_bar().encode(
                     x=alt.X('Sub-Category:O', sort='-y', title='Sub-Category'),
-                    y=alt.Y('sum(Sales):Q', title='Total Sales per Sub-Category'),
+                    y=alt.Y('sum(Sales):Q', title='Sales per Sub-Category'),
                     color='Sub-Category:N',
                     tooltip=['Sub-Category', 'sum(Sales)']  # Displayed when hovering over a bar
                 ).properties(
@@ -119,7 +124,7 @@ def market_logic():
 
             product_name_count = df_filtered_countries['Product Name'].value_counts().reset_index()
             top_5_products = product_name_count.head(5)
-            st.write(f"The top 5 most sold product for {country_str} are:")
+            st.subheader(f"The 5 most sold products in {country_str} are:")
             st.write(top_5_products)
 
     else:
