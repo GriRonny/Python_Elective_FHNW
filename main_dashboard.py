@@ -82,14 +82,12 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
                  "- Gain insights about payment methods \n"
                  "- Interactively filter the data")
 
-
     with col2:
         st.subheader("Market Analytics")
         st.write("- Compare total sales per market \n"
                  "- Compare mean sales per market \n"
                  "- Filter the data by desired market"
                  )
-
 
     with col3:
         st.subheader("Sales Analytics")

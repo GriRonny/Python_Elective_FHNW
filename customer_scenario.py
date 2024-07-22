@@ -5,6 +5,32 @@ import altair as alt
 import matplotlib.pyplot as plt
 
 
+def create_age_column():
+    if st.session_state.df is not None:  # Checking if session state df is not empty
+        df = st.session_state.df  # assigning session state df to variable "df"
+
+        # Calculating the age of the customers
+
+        # Convert 'Date of Birth' column to datetime format
+        df['Customer DOB'] = pd.to_datetime(df['Customer DOB'])
+
+        # Calculate the current date
+        current_date = pd.to_datetime('today')
+
+        # Handle the missing date of birth cels and make them age 0
+        df['Customer DOB'].fillna(pd.to_datetime(current_date), inplace=True)
+
+        # Calculating the age --> used ChatGPT to come up with this idea
+        df['Age'] = df['Customer DOB'].apply(
+            lambda dob: current_date.year - dob.year - ((current_date.month, current_date.day) < (dob.month, dob.day)))
+
+        df['Age'] = df['Age'].astype(int)
+
+        age_range = df['Age']
+
+        return age_range
+
+
 def customer_logic():
     st.header("Customer Analyses")
 
@@ -32,6 +58,11 @@ def customer_logic():
         # Create lists of selected gender
         selected_gender_list = [gender for gender, selected in zip(gender_type, selected_gender) if selected]
 
+        with st.sidebar:
+            st.subheader("Filter Age Range")
+            age_slider = st.slider("Age Range", min_value=min(create_age_column()), max_value=max(create_age_column()),
+                                   value=max(create_age_column()))
+
         # sidebar menu to select years
         with st.sidebar.subheader('Select relevant year'):
             # Ensure the sales date column is in datetime format
@@ -45,6 +76,9 @@ def customer_logic():
 
             # create sidebar selection with the years
             year_select = st.sidebar.multiselect('Select Year', options=unique_years)
+
+        # Prefilter the data based on the selected Age range via the age_slider!
+        df = df[(df['Age'] >= min(create_age_column())) & (df['Age'] <= age_slider)]
 
         # Filter the DataFrame based on selected segment, year, and gender
         if selected_segment_list and year_select and selected_gender_list:
