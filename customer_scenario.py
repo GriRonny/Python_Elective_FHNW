@@ -52,7 +52,7 @@ def customer_logic():
         # Create sidebar menu for gender selection
         with st.sidebar:
             st.subheader("Filter Gender")
-            gender_type = df['Gender'].unique()
+            gender_type = [g_type for g_type in df['Gender'].unique()]
             selected_gender = [st.checkbox(gender, key=gender) for gender in gender_type]
 
         # Create lists of selected gender
@@ -60,8 +60,14 @@ def customer_logic():
 
         with st.sidebar:
             st.subheader("Filter Age Range")
+            # Check if corporate checkbox is selected (Maybe different way possible?)
+            if selected_seg[1]:
+                st.info('Note: Corporate customers have their age set to 0.', icon="ℹ️")
             age_slider = st.slider("Age Range", min_value=min(create_age_column()), max_value=max(create_age_column()),
-                                   value=max(create_age_column()))
+                                   value=(min(create_age_column()), max(create_age_column())))
+
+        # Store min and max values from slider in variables
+        selected_min_age, selected_max_age = age_slider
 
         # sidebar menu to select years
         with st.sidebar.subheader('Select relevant year'):
@@ -78,7 +84,7 @@ def customer_logic():
             year_select = st.sidebar.multiselect('Select Year', options=unique_years)
 
         # Prefilter the data based on the selected Age range via the age_slider!
-        df = df[(df['Age'] >= min(create_age_column())) & (df['Age'] <= age_slider)]
+        df = df[(df['Age'] >= selected_min_age) & (df['Age'] <= selected_max_age)]
 
         # Filter the DataFrame based on selected segment, year, and gender
         if selected_segment_list and year_select and selected_gender_list:

@@ -21,11 +21,14 @@ class SalesScenario:
             # Convert dates using Pandas (.date used to convert to only dates (no time-stamps))
             order_dates_form = pd.to_datetime(order_dates).date
 
+            # Convert to list
+            order_dates_form_list = list(order_dates_form)
+
             # Sidebar for Sales Scenario
             with st.sidebar:
                 st.header("Filter options:")
-                st.slider("Order Date", min_value=order_dates_form.min(), max_value=order_dates_form.max(),
-                          value=(order_dates_form.min(), order_dates_form.max()))
+                st.slider("Order Date", min_value=min(order_dates_form_list), max_value=max(order_dates_form_list),
+                          value=(min(order_dates_form_list), max(order_dates_form_list)))
 
                 # Returns user to overview view
                 if st.button("Return to overview"):
