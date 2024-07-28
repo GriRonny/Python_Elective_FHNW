@@ -27,6 +27,9 @@ class SalesScenario:
                 st.slider("Order Date", min_value=order_dates_form.min(), max_value=order_dates_form.max(),
                           value=(order_dates_form.min(), order_dates_form.max()))
 
+                if st.button("Return to overview"):
+                    st.session_state.switch_view('analysis')
+
             # This groups the df by country and appends aggregates of one or more columns
             sales_summary = df.groupby('Country').agg({'Sales': 'sum', 'Profit': 'mean'}).reset_index()
 
