@@ -32,6 +32,7 @@ def create_age_column():
 
 
 def customer_logic():
+    global filtered_df
     st.header("Customer Analyses")
 
     # Error Handling here? Because data might be empty?
@@ -63,7 +64,7 @@ def customer_logic():
             # Check if corporate checkbox is selected (Maybe different way possible?)
             if selected_seg[1]:
                 st.info('Note: Corporate customers have their age set to 0.', icon="ℹ️")
-            age_slider = st.slider("Age Range", min_value=min(create_age_column()), max_value=max(create_age_column()),
+            age_slider = st.slider("Age Range ", min_value=min(create_age_column()), max_value=max(create_age_column()),
                                    value=(min(create_age_column()), max(create_age_column())))
 
         # Store min and max values from slider in variables
@@ -92,6 +93,7 @@ def customer_logic():
                 (df['Segment'].isin(selected_segment_list) & df['Order Year'].isin(year_select)
                  & df['Gender'].isin(selected_gender_list))
             ]
+
         elif selected_segment_list and year_select:
             filtered_df = df[
                 (df['Segment'].isin(selected_segment_list) & df['Order Year'].isin(year_select))
@@ -107,6 +109,7 @@ def customer_logic():
                 (df['Order Year'].isin(year_select)
                  & df['Gender'].isin(selected_gender_list))
             ]
+
         elif selected_segment_list:
             filtered_df = df[df['Segment'].isin(selected_segment_list)]
 
@@ -130,33 +133,38 @@ def customer_logic():
         least_profitable_cus = filtered_df.groupby('Customer Name')['Profit'].sum().reset_index()
         top_worst_cus = least_profitable_cus.sort_values(by='Profit', ascending=True).head(5)
 
-        # Displaying best and worst customers
-        col1, col2 = st.columns(2)
+        if filtered_df.empty:
+            st.warning("No  data available with current filter applied. Age to low :warning:", icon='⚠️')
 
-        with col1:
-            st.subheader("Most profitable customers:+1:")
-            st.write(top_profitable_cus)
+        else:
+            # Displaying best and worst customers
+            col1, col2 = st.columns(2)
 
-        with col2:
-            st.subheader("Least profitable customers:-1:")
-            st.write(top_worst_cus)
+            with col1:
+                st.subheader("Most profitable customers:+1:")
+                st.write(top_profitable_cus)
 
-        # Add a title above the bar chart
-        st.subheader("Favored payment method of all customers :credit_card:")
+            with col2:
+                st.subheader("Least profitable customers:-1:")
+                st.write(top_worst_cus)
 
-        col3, col4 = st.columns(2)
-        with col3:
-            # Display the bar chart
-            st.bar_chart(payment_counts.set_index('Payment Method'))
+            # Add a title above the bar chart
+            st.subheader("Favored payment method of all customers :credit_card:")
 
-        with col4:
-            # Display a pie chart of to visualize the payment method distribution
-            fig, ax = plt.subplots()
-            ax.pie(payment_counts['Count'], labels=payment_counts['Payment Method'], autopct='%1.1f%%', startangle=90)
-            ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+            col3, col4 = st.columns(2)
+            with col3:
+                # Display the bar chart
+                st.bar_chart(payment_counts.set_index('Payment Method'))
 
-            # Display the pie chart in Streamlit
-            st.pyplot(fig)
+            with col4:
+                # Display a pie chart of to visualize the payment method distribution
+                fig, ax = plt.subplots()
+                ax.pie(payment_counts['Count'], labels=payment_counts['Payment Method'], autopct='%1.1f%%',
+                       startangle=90)
+                ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+                # Display the pie chart in Streamlit
+                st.pyplot(fig)
 
     else:
         st.error("No data loaded. Please upload a CSV file.")

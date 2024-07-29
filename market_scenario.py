@@ -83,7 +83,7 @@ def market_logic():
 
         # If no countries are selected, an info will be displayed
         if df_filtered_countries.empty:
-            st.info(":bulb: Select a country to analyze the sales by product category for the selected country")
+            st.info("Select a country to analyze the sales by product category for the selected country", icon='💡')
 
         else:
             st.header(f"Country specific analysis for {country_str}")
