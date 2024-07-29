@@ -49,7 +49,7 @@ def market_logic():
         col1, col2 = st.columns(2)
 
         if df_filtered_market.empty:
-            st.warning("No markets or year selected")
+            st.warning("No market data available with current filter applied.", icon='⚠️')
 
         else:
             with col1:
@@ -83,7 +83,7 @@ def market_logic():
 
         # If no countries are selected, an info will be displayed
         if df_filtered_countries.empty:
-            st.info("Select a country to analyze the sales by product category for the selected country")
+            st.info(":bulb: Select a country to analyze the sales by product category for the selected country")
 
         else:
             st.header(f"Country specific analysis for {country_str}")
