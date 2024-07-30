@@ -38,6 +38,7 @@ def customer_logic():
 
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # assigning session state df to variable "df"
+        create_age_column()
 
         # Filter the DataFrame for the segment "Customer" to get the min age for the warning display
         min_df = df[df['Segment'] == 'Consumer']
