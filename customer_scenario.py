@@ -32,13 +32,18 @@ def create_age_column():
 
 
 def customer_logic():
-    global filtered_df
     st.header("Customer Analyses")
 
     # Error Handling here? Because data might be empty?
 
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # assigning session state df to variable "df"
+
+        # Filter the DataFrame for the segment "Customer" to get the min age for the warning display
+        min_df = df[df['Segment'] == 'Consumer']
+
+        # Find the minimum age within the filtered DataFrame
+        min_age_customer = min_df['Age'].min()
 
         # Sidebar for Segment Filter
         with st.sidebar:
@@ -134,7 +139,7 @@ def customer_logic():
         top_worst_cus = least_profitable_cus.sort_values(by='Profit', ascending=True).head(5)
 
         if filtered_df.empty:
-            st.warning("No  data available with current filter applied. Age to low :warning:", icon='⚠️')
+            st.warning(f"Age filter set to low. The min age for consumer segment is {min_age_customer} :warning:", icon='⚠️')
 
         else:
             # Displaying best and worst customers
