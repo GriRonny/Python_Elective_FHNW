@@ -104,11 +104,13 @@ def profit_logic():
                 profit_by_market_chart = alt.Chart(market_profit).mark_bar().encode(
                     x=alt.X('Market:O', sort='-y', title='Market'),
                     y=alt.Y('Profit:Q', title='Total Profit'),
+                    # Color scheme may be changed according to specifications.
                     color=alt.Color('Market:N', legend=None, scale=alt.Scale(scheme='paired')),
                     tooltip=['Market', 'Profit']
                 ).properties(
                     width=600,
                     height=400,
+                    # Using title object of Altair to configure visual appearance of title.
                     title=alt.Title("Total Profit by Market", fontWeight="bolder")
                 ).configure_axis(
                     labelFontSize=12,
