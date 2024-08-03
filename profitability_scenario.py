@@ -10,6 +10,8 @@ def profit_logic():
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # assigning session state df to variable "df"
 
+        st.write(df)
+
     else:
         st.error("No data loaded. Please upload a CSV file.")
 

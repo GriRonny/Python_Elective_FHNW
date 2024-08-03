@@ -41,18 +41,22 @@ class SalesScenario:
                     # Extract unique dates from "Order Date" column and convert to list
                     order_dates_list = df_filtered_by_year["Order Date"].dt.date.unique().tolist()
 
+                    st.subheader("Filter by Order Date")
                     date_range = st.slider(
                         "Order Date",
                         min_value=min(order_dates_list),
                         max_value=max(order_dates_list),
-                        value=(min(order_dates_list), max(order_dates_list))
+                        value=(min(order_dates_list), max(order_dates_list)),
+                        format="YYYY-MM-DD"
                     )
 
-                    # Returns user to overview view
-                    if st.button("Return to overview"):
-                        st.session_state.switch_view('analysis')
+                # Returns user to overview view
+                if st.button("Return to overview"):
+                    st.session_state.switch_view('analysis')
 
             if selected_years:
+                df_filtered_by_year = df[df["Order Date"].dt.year.isin(selected_years)]
+
                 filtered_df = df_filtered_by_year.query(
                     "`Order Date` >= @pd.Timestamp(@date_range[0]) and `Order Date` <= @pd.Timestamp(@date_range[1]) "
                     "and `Country` in @selected_countries"
@@ -64,7 +68,27 @@ class SalesScenario:
                 else:
                     # Display the sales bar chart
                     st.subheader("Sales Overview")
-                    st.bar_chart(data=filtered_df["Sales"])
+
+                    # Enhanced Bar Chart
+                    sales_chart = alt.Chart(filtered_df).mark_bar().encode(
+                        x=alt.X('Country:O', sort='-y', title='Country'),
+                        y=alt.Y('sum(Sales):Q', title='Total Sales'),
+                        color=alt.Color('Country:N', legend=None, scale=alt.Scale(scheme='category20b')),
+                        tooltip=['Country', 'sum(Sales)']
+                    ).properties(
+                        width=700,
+                        height=400,
+                        title='Total Sales by Country'
+                    ).configure_axis(
+                        labelFontSize=12,
+                        titleFontSize=14
+                    ).configure_title(
+                        fontSize=16
+                    ).configure_view(
+                        strokeOpacity=0
+                    ).interactive()
+
+                    st.altair_chart(sales_chart, use_container_width=True)
 
                     # This groups the df by country and appends aggregates of one or more columns
                     sales_summary = df.groupby('Country').agg({'Sales': 'sum', 'Profit': 'mean'}).reset_index()
@@ -132,11 +156,37 @@ class SalesScenario:
                             st.subheader(f"The 5 most sold products in {country} are:")
                             st.write(top_5_products)
 
+                            # Line chart for sales trend over time
+                            sales_trend_chart = alt.Chart(country_df).mark_line().encode(
+                                x=alt.X('yearmonth(Order Date):T', title='Order Date (Year-Month)'),
+                                y='sum(Sales):Q',
+                                color='Category:N',
+                                tooltip=['Order Date:T', 'sum(Sales)', 'Category']
+                            ).properties(
+                                width=600,
+                                height=400,
+                                title=f'Sales Trend Over Time for {country}'
+                            )
+
+                            st.altair_chart(sales_trend_chart, use_container_width=True)
+
             else:
                 st.warning("No sales data available with current filter applied.", icon="⚠️")
 
         else:
             st.warning("No data available. Please upload a dataset.")
+            uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+            if uploaded_file is not None:
+                try:
+                    st.session_state.df = pd.read_csv(uploaded_file)
+                    st.success("File uploaded successfully!")
+                except Exception as e:
+                    st.error(f"Error uploading file: {e}")
 
         if st.button("Go back to Analysis"):
             st.session_state.switch_view('analysis')
+
+# Initialize and run the app
+if __name__ == "__main__":
+    scenario = SalesScenario()
+    scenario.sales_logic()
