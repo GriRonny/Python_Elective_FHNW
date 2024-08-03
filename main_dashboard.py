@@ -22,7 +22,7 @@ st.session_state.switch_view = switch_view  # Make switch_view function accessib
 
 if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
 
-    st.header("Welcome to our dashboard :eggplant:")
+    st.header("Welcome to our dashboard!")
 
     st.write("First, select the latest global_superstore.csv file. \n"
              "\nNext, enjoy our dashboard that we created!:fire:")

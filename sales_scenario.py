@@ -79,7 +79,7 @@ class SalesScenario:
                     sales_chart = alt.Chart(filtered_df).mark_bar().encode(
                         x=alt.X('Category:O', sort='-y', title='Category'),
                         y=alt.Y('sum(Sales):Q', title='Total Sales'),
-                        color=alt.Color('Category:N', legend=None, scale=alt.Scale(scheme='category20b')),
+                        color=alt.Color('Category:N', legend=None, scale=alt.Scale(scheme='paired')),
                         tooltip=['Category', 'sum(Sales)']
                     ).properties(
                         width=700,
@@ -172,9 +172,6 @@ class SalesScenario:
                     st.success("File uploaded successfully!")
                 except Exception as e:
                     st.error(f"Error uploading file: {e}")
-
-        if st.button("Go back to Analysis"):
-            st.session_state.switch_view('analysis')
 
 
 # Initialize and run the app
