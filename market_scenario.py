@@ -30,7 +30,7 @@ def market_logic():
         year_select = st.sidebar.multiselect(
             'Select Years:',
             options=years_list,
-            default=years_list
+            default=years_list[-1]
         )
 
         # Filter data using the selected markets and years
