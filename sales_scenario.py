@@ -10,7 +10,7 @@ class SalesScenario:
     def sales_logic(self):
         st.header("Sales Section")
 
-        st.markdown("""
+        st.write("""
         Welcome to the Sales Analysis Section. Use the filters on the left sidebar to select the desired product 
         categories and years. You may also adjust the order date range to narrow down the data further. 
         The visualizations and data tables will update accordingly to reflect your selections.

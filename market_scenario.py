@@ -5,6 +5,13 @@ import altair as alt
 def market_logic():
     st.header("Market Analytics")
 
+    st.write("""
+            Welcome to the Market Analysis Section. Use the filters on the left sidebar to select the desired markets 
+            and years for analysis. You may also select specific countries to start a country-specific analysis 
+            which includes sales by category and sub-category as well as a top five list of the best-selling products 
+            for the selected countries.
+            """)
+
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # Assigning session state df to variable "df"
 
@@ -90,7 +97,7 @@ def market_logic():
                 if country_df.empty:
                     st.info(f"No data available for {country} with current filter applied.", icon='⚠️')
                 else:
-                    st.header(f"Country specific analysis for {country}")
+                    st.subheader(f"Country specific analysis for _{country}_", divider="grey")
 
                     col3, col4 = st.columns(2)
 
@@ -124,9 +131,12 @@ def market_logic():
 
                         st.altair_chart(sales_sub_category, use_container_width=True)
 
-                    product_name_count = country_df['Product Name'].value_counts().reset_index()
-                    top_5_products = product_name_count.head(5)
-                    st.subheader(f"The 5 most sold products in {country} are:")
+                    product_sales_summary = country_df.groupby('Product Name').agg({'Sales': 'sum'}).reset_index()
+
+                    sorted_prod_sum = product_sales_summary.sort_values(by="Sales", ascending=False)
+
+                    top_5_products = sorted_prod_sum.head(5)
+                    st.write(f"**Top Five Most Sold Products in {country}**")
                     st.write(top_5_products)
 
     else:

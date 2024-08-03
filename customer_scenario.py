@@ -34,6 +34,12 @@ def customer_logic():
 
     # Error Handling here? Because data might be empty?
 
+    st.write("""
+            Welcome to the Customer Analysis Section. Use the filters on the left sidebar to adjust your query.
+            You may also adjust the age range and select specific year(s) to narrow down the data further. 
+            The visualizations and data tables will update accordingly to reflect your selections.
+            """)
+
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # assigning session state df to variable "df"
         create_age_column()
@@ -138,7 +144,8 @@ def customer_logic():
         top_worst_cus = least_profitable_cus.sort_values(by='Profit', ascending=True).head(5)
 
         if filtered_df.empty:
-            st.warning(f"Age filter set to low. The min age for consumer segment is {min_age_customer} :warning:", icon='⚠️')
+            st.warning(f"Age filter set to low. The min age for consumer segment is {min_age_customer} :warning:",
+                       icon='⚠️')
 
         else:
             # Displaying best and worst customers
