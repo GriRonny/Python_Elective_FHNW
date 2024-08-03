@@ -11,9 +11,9 @@ class SalesScenario:
         st.header("Sales Section")
 
         st.markdown("""
-        Welcome to the Sales Analysis Section. Use the filters on the left sidebar to select the desired product categories and years.
-        You can also adjust the order date range to narrow down the data further. The visualizations and data tables will update accordingly
-        to reflect your selections, providing insights into sales performance by sub-categories and specific products.
+        Welcome to the Sales Analysis Section. Use the filters on the left sidebar to select the desired product 
+        categories and years. You may also adjust the order date range to narrow down the data further. 
+        The visualizations and data tables will update accordingly to reflect your selections.
         """)
 
         if st.session_state.df is not None:  # Checking if session state df is not empty
@@ -107,11 +107,11 @@ class SalesScenario:
                     col1, col2 = st.columns(2)
 
                     with col1:
-                        st.write("Sub-Categories with the Highest Sales:")
+                        st.write("**Sub-Categories with the Highest Sales:**")
                         st.dataframe(top_5_sub_categories)
 
                     with col2:
-                        st.write("Sub-Categories with the Lowest Sales:")
+                        st.write("**Sub-Categories with the Lowest Sales:**")
                         st.dataframe(flop_5_sub_categories)
 
                     # Category specific analysis for selected categories
@@ -143,7 +143,7 @@ class SalesScenario:
                             sorted_prod_sum = product_sales_summary.sort_values(by="Sales", ascending=False)
 
                             top_5_products = sorted_prod_sum.head(5)
-                            st.write(f"**The 5 Most Sold Products in {category} Are:**")
+                            st.write(f"**Top Five Most Sold Products in {category}**")
                             st.dataframe(top_5_products)
 
                             # Line chart for sales trend over time
