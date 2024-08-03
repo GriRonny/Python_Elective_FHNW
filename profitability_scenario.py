@@ -109,7 +109,7 @@ def profit_logic():
                 ).properties(
                     width=600,
                     height=400,
-                    title='Total Profit by Market'
+                    title=alt.Title("Total Profit by Market", fontWeight="bolder")
                 ).configure_axis(
                     labelFontSize=12,
                     titleFontSize=14
@@ -130,7 +130,7 @@ def profit_logic():
                 ).properties(
                     width=600,
                     height=400,
-                    title='Total Profit by Country'
+                    title=alt.Title("Total Profit by Country", fontWeight="bolder")
                 ).configure_axis(
                     labelFontSize=12,
                     titleFontSize=14
@@ -151,7 +151,7 @@ def profit_logic():
                 ).properties(
                     width=600,
                     height=400,
-                    title='Total Profit by Category'
+                    title=alt.Title("Total Profit by Category", fontWeight="bolder")
                 ).configure_axis(
                     labelFontSize=12,
                     titleFontSize=14
@@ -172,7 +172,7 @@ def profit_logic():
                 ).properties(
                     width=600,
                     height=400,
-                    title='Total Profit by Sub-Category'
+                    title=alt.Title("Total Profit by Sub-Category", fontWeight="bolder")
                 ).configure_axis(
                     labelFontSize=12,
                     titleFontSize=14
@@ -193,7 +193,7 @@ def profit_logic():
                 ).properties(
                     width=600,
                     height=400,
-                    title='Total Profit by Customer'
+                    title=alt.Title("Total Profit by Customer", fontWeight="bolder")
                 ).configure_axis(
                     labelFontSize=12,
                     titleFontSize=14
