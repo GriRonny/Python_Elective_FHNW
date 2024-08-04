@@ -150,13 +150,23 @@ class SalesScenario:
                             sales_trend_chart = alt.Chart(category_df).mark_line().encode(
                                 x=alt.X('yearmonth(Order Date):T', title='Order Date (Year-Month)'),
                                 y='sum(Sales):Q',
-                                color='Sub-Category:N',
-                                tooltip=['Order Date:T', 'sum(Sales)', 'Sub-Category']
+                                color=alt.Color('Sub-Category:N', scale=alt.Scale(scheme='category20')),
+                                tooltip=['yearmonth(Order Date):T', 'sum(Sales):Q', 'Sub-Category:N']
                             ).properties(
                                 width=600,
                                 height=400,
                                 title=f'Sales Trend Over Time for {category}'
-                            )
+                            ).configure_axis(
+                                labelFontSize=12,
+                                titleFontSize=14
+                            ).configure_title(
+                                fontSize=16
+                            ).configure_legend(
+                                labelFontSize=12,
+                                titleFontSize=14
+                            ).configure_view(
+                                strokeOpacity=0
+                            ).interactive()
 
                             st.altair_chart(sales_trend_chart, use_container_width=True)
 
