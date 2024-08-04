@@ -24,8 +24,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
 
     st.header("Welcome to our dashboard!")
 
-    st.write("First, select the latest global_superstore.csv file. \n"
-             "\nNext, enjoy our dashboard that we created!:fire:")
+    st.write("Please upload the latest **global_superstore.csv** file to start analyzing.")
 
     # Define required columns as a constant variable
     REQUIRED_COLUMNS = [
@@ -70,53 +69,54 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
         st.info("Please upload a CSV file.")
 
 elif st.session_state.view == 'analysis':  # Here we display the "Upload" view if the session state == "analysis"
-    st.header("Choose what you want to analyse!:chart_with_upwards_trend:")
-    st.write("Below are the different analyses.")
+    st.header("Choose your desired analytics:chart_with_upwards_trend:")
+    st.write("Please choose from the following options. After that, click the 'Start Analyzing' button to display "
+             "your selected view and begin the analysis.")
 
     # Create three parallel sections
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.subheader("Customer Analytics")
-        st.write("- Identify most/least profitable customers \n"
-                 "- Gain insights about payment methods \n"
-                 "- Interactively filter the data")
+        st.write("- Identify the most and least profitable customers. \n"
+                 "- Gain knowledge about our customer's payment methods. \n"
+                 "- Interactively filter the data.")
 
     with col2:
         st.subheader("Market Analytics")
-        st.write("- Compare total sales per market \n"
-                 "- Compare mean sales per market \n"
-                 "- Filter the data by desired market"
+        st.write("- Compare the total sales by market. \n"
+                 "- Compare the mean sales by market. \n"
+                 "- Interactively filter the data."
                  )
 
     with col3:
         st.subheader("Sales Analytics")
-        st.write("- Identify most/least profitable customers \n"
-                 "- Gain insights about payment methods \n"
-                 "- Interactively filter the data")
+        st.write("- Compare total sales by product categories. \n"
+                 "- Gain insights about sales performance and visualize trends. \n"
+                 "- Interactively filter the data.")
 
     with col4:
         st.subheader("Profitability Analytics")
-        st.write("- Identify most/least profitable customers \n"
-                 "- Gain insights about payment methods \n"
-                 "- Interactively filter the data")
+        st.write("- Gain insights about the company profitability. \n"
+                 "- Visualize profit performance of different segments. \n"
+                 "- Interactively filter the data.")
 
     # Columns to display the buttons that switch to the respective analytics view
     col5, col6, col7, col8 = st.columns(4)
     with col5:
-        if st.button("Start analysing", key="button5"):
+        if st.button("Start analyzing", key="button5"):
             switch_view('customer')
     with col6:
-        if st.button("Start analysing", key="button6"):
+        if st.button("Start analyzing", key="button6"):
             switch_view('market')
     with col7:
-        if st.button("Start analysing", key="button7"):
+        if st.button("Start analyzing", key="button7"):
             switch_view('sales')
     with col8:
-        if st.button("Start analysing", key="button8"):
+        if st.button("Start analyzing", key="button8"):
             switch_view('profit')
 
-    if st.button("Go back to Upload"):  # If this button is pressed, the user returns to the defined view.
+    if st.button("Go back to Upload", type="secondary"):  # If this button is pressed, the user returns to the defined view.
         switch_view('upload')  # switch_view function called with parameter "upload"
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"

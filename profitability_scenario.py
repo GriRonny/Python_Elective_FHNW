@@ -76,8 +76,11 @@ def profit_logic():
                 profit_margin = (total_profit / total_sales) * 100
 
                 # Calculate expected profit for comparison
-                expected_profit = 0.33 * total_sales  # We assume  10% of total sales as expected profit (tobe changed)
+                expected_profit = 0.50 * total_sales  # We assume  15% of total sales as expected profit (tobe changed)
                 profit_diff = total_profit - expected_profit
+
+                if profit_diff < 0:
+                    st.toast("Warning: Actual profit is less than expected profit for selected period.", icon="🚨")
 
                 # Display profit statistics
                 col1, col2 = st.columns(2)
@@ -108,7 +111,7 @@ def profit_logic():
                     fontSize=16
                 ).configure_view(
                     strokeOpacity=0
-                ).interactive()
+                )
 
                 st.altair_chart(monthly_profit_trend_chart, use_container_width=True)
 
@@ -118,34 +121,29 @@ def profit_logic():
                 country_profit = (filtered_df.groupby('Country').agg({'Profit': 'sum'}).reset_index()
                                   .sort_values(by='Profit', ascending=False).head(5))
                 category_profit = (filtered_df.groupby('Category').agg({'Profit': 'sum'}).reset_index()
-                                   .sort_values(by='Profit', ascending=False).head(5))
+                                   .sort_values(by='Profit', ascending=False).head(3))
                 sub_category_profit = (filtered_df.groupby('Sub-Category').agg({'Profit': 'sum'}).reset_index()
                                        .sort_values(by='Profit', ascending=False).head(5))
-                customer_profit = (filtered_df.groupby('Customer Name').agg({'Profit': 'sum'}).reset_index()
-                                   .sort_values(by='Profit', ascending=False).head(5))
 
                 # Display top 5 profitable markets, countries, categories, sub-categories, and customers
                 col1, col2 = st.columns(2)
 
                 with col1:
                     st.write("Top 5 **Markets** by Profit:")
-                    st.dataframe(market_profit)
+                    st.dataframe(market_profit, width=350)
 
                     st.write("Top 5 **Countries** by Profit:")
-                    st.dataframe(country_profit)
-
-                    st.write("Top 5 **Categories** by Profit:")
-                    st.dataframe(category_profit)
+                    st.dataframe(country_profit, width=350)
 
                 with col2:
                     st.write("Top 5 **Sub-Categories** by Profit:")
-                    st.dataframe(sub_category_profit)
+                    st.dataframe(sub_category_profit, width=350)
 
-                    st.write("Top 5 **Customers** by Profit:")
-                    st.dataframe(customer_profit)
+                    st.write("Top 3 **Categories** by Profit:")
+                    st.dataframe(category_profit, width=350)
 
                 # Visualizations
-                st.subheader("Visualization of Data")
+                st.subheader("Data Visualization")
 
                 # Profit by Market
                 profit_by_market_chart = alt.Chart(market_profit).mark_bar().encode(
@@ -157,6 +155,7 @@ def profit_logic():
                     width=600,
                     height=400,
                     title=alt.Title("Total Profit by Market", fontWeight="bolder")
+
                 ).configure_axis(
                     labelFontSize=12,
                     titleFontSize=14
@@ -164,7 +163,7 @@ def profit_logic():
                     fontSize=16
                 ).configure_view(
                     strokeOpacity=0
-                ).interactive()
+                )
 
                 st.altair_chart(profit_by_market_chart, use_container_width=True)
 
@@ -185,7 +184,7 @@ def profit_logic():
                     fontSize=16
                 ).configure_view(
                     strokeOpacity=0
-                ).interactive()
+                )
 
                 st.altair_chart(profit_by_country_chart, use_container_width=True)
 
@@ -206,7 +205,7 @@ def profit_logic():
                     fontSize=16
                 ).configure_view(
                     strokeOpacity=0
-                ).interactive()
+                )
 
                 st.altair_chart(profit_by_category_chart, use_container_width=True)
 
@@ -227,30 +226,10 @@ def profit_logic():
                     fontSize=16
                 ).configure_view(
                     strokeOpacity=0
-                ).interactive()
+                )
 
                 st.altair_chart(profit_by_sub_category_chart, use_container_width=True)
 
-                # Profit by Customer
-                profit_by_customer_chart = alt.Chart(customer_profit).mark_bar().encode(
-                    x=alt.X('Customer Name:O', sort='-y', title='Customer Name'),
-                    y=alt.Y('Profit:Q', title='Total Profit'),
-                    color=alt.Color('Customer Name:N', legend=None, scale=alt.Scale(scheme='paired')),
-                    tooltip=['Customer Name', 'Profit']
-                ).properties(
-                    width=600,
-                    height=400,
-                    title=alt.Title("Total Profit by Customer", fontWeight="bolder")
-                ).configure_axis(
-                    labelFontSize=12,
-                    titleFontSize=14
-                ).configure_title(
-                    fontSize=16
-                ).configure_view(
-                    strokeOpacity=0
-                ).interactive()
-
-                st.altair_chart(profit_by_customer_chart, use_container_width=True)
 
         else:
             st.warning("No profitability data available with current filter applied.", icon="⚠️")
