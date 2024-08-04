@@ -70,12 +70,59 @@ def profit_logic():
                 # Display the profitability overview
                 st.subheader("Profitability Overview")
 
+                # Calculate total profit and profit margin
+                total_profit = filtered_df['Profit'].sum()
+                total_sales = filtered_df['Sales'].sum()
+                profit_margin = (total_profit / total_sales) * 100
+
+                # Calculate expected profit for comparison
+                expected_profit = 0.33 * total_sales  # We assume  10% of total sales as expected profit (tobe changed)
+                profit_diff = total_profit - expected_profit
+
+                # Display profit statistics
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    st.metric("Total Profit", f"${total_profit:,.2f}")  # ,.2f = two decimals (thousands with comma)
+                    st.metric("Profit Margin", f"{profit_margin:.2f}%")
+
+                with col2:
+                    st.metric("Expected Profit", f"${expected_profit:,.2f}")
+                    st.metric("Profit Difference", f"${profit_diff:.2f}")
+
+                # Monthly Profit Trend
+                monthly_profit_trend = filtered_df.groupby(pd.Grouper(key='Order Date', freq='ME')).agg(
+                    {'Profit': 'sum'}).reset_index()
+                monthly_profit_trend_chart = alt.Chart(monthly_profit_trend).mark_line(point=True).encode(
+                    x=alt.X('yearmonth(Order Date):T', title='Month'),
+                    y=alt.Y('Profit:Q', title='Total Profit'),
+                    tooltip=['yearmonth(Order Date)', 'Profit']
+                ).properties(
+                    width=800,
+                    height=400,
+                    title=alt.Title("Monthly Profit Trend", fontWeight="bolder")
+                ).configure_axis(
+                    labelFontSize=12,
+                    titleFontSize=14
+                ).configure_title(
+                    fontSize=16
+                ).configure_view(
+                    strokeOpacity=0
+                ).interactive()
+
+                st.altair_chart(monthly_profit_trend_chart, use_container_width=True)
+
                 # Group by market, country, category, sub-category, and customer to calculate total profit
-                market_profit = filtered_df.groupby('Market').agg({'Profit': 'sum'}).reset_index().sort_values(by='Profit', ascending=False).head(5)
-                country_profit = filtered_df.groupby('Country').agg({'Profit': 'sum'}).reset_index().sort_values(by='Profit', ascending=False).head(5)
-                category_profit = filtered_df.groupby('Category').agg({'Profit': 'sum'}).reset_index().sort_values(by='Profit', ascending=False).head(5)
-                sub_category_profit = filtered_df.groupby('Sub-Category').agg({'Profit': 'sum'}).reset_index().sort_values(by='Profit', ascending=False).head(5)
-                customer_profit = filtered_df.groupby('Customer Name').agg({'Profit': 'sum'}).reset_index().sort_values(by='Profit', ascending=False).head(5)
+                market_profit = (filtered_df.groupby('Market').agg({'Profit': 'sum'}).reset_index()
+                                 .sort_values(by='Profit', ascending=False).head(5))
+                country_profit = (filtered_df.groupby('Country').agg({'Profit': 'sum'}).reset_index()
+                                  .sort_values(by='Profit', ascending=False).head(5))
+                category_profit = (filtered_df.groupby('Category').agg({'Profit': 'sum'}).reset_index()
+                                   .sort_values(by='Profit', ascending=False).head(5))
+                sub_category_profit = (filtered_df.groupby('Sub-Category').agg({'Profit': 'sum'}).reset_index()
+                                       .sort_values(by='Profit', ascending=False).head(5))
+                customer_profit = (filtered_df.groupby('Customer Name').agg({'Profit': 'sum'}).reset_index()
+                                   .sort_values(by='Profit', ascending=False).head(5))
 
                 # Display top 5 profitable markets, countries, categories, sub-categories, and customers
                 col1, col2 = st.columns(2)
@@ -104,13 +151,11 @@ def profit_logic():
                 profit_by_market_chart = alt.Chart(market_profit).mark_bar().encode(
                     x=alt.X('Market:O', sort='-y', title='Market'),
                     y=alt.Y('Profit:Q', title='Total Profit'),
-                    # Color scheme may be changed according to specifications.
                     color=alt.Color('Market:N', legend=None, scale=alt.Scale(scheme='paired')),
                     tooltip=['Market', 'Profit']
                 ).properties(
                     width=600,
                     height=400,
-                    # Using title object of Altair to configure visual appearance of title.
                     title=alt.Title("Total Profit by Market", fontWeight="bolder")
                 ).configure_axis(
                     labelFontSize=12,

@@ -147,7 +147,7 @@ class SalesScenario:
                             st.dataframe(top_5_products)
 
                             # Line chart for sales trend over time
-                            sales_trend_chart = alt.Chart(category_df).mark_line().encode(
+                            sales_trend_chart = alt.Chart(category_df).mark_line(point=True).encode(
                                 x=alt.X('yearmonth(Order Date):T', title='Order Date (Year-Month)'),
                                 y='sum(Sales):Q',
                                 color=alt.Color('Sub-Category:N', scale=alt.Scale(scheme='category20')),
