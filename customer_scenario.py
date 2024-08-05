@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import altair as alt
 
 
 def create_age_column():
@@ -164,8 +165,18 @@ def customer_logic():
 
             col3, col4 = st.columns(2)
             with col3:
-                # Display the bar chart
-                st.bar_chart(payment_counts.set_index('Payment Method'))
+                # Display the bar chart showing the usage of the payment methods
+                payment_method = alt.Chart(filtered_df).mark_bar().encode(
+                    x=alt.X('Payment Method:O', sort='-y', title='Payment Method'),
+                    y=alt.Y('count(Payment Method):Q', title='Amount used'),
+                    color='Payment Method:N',
+                    tooltip=['Payment Method', 'count(Payment Method)']
+                ).properties(
+                    width=600,
+                    height=400
+                )
+
+                st.altair_chart(payment_method, use_container_width=True)
 
             with col4:
                 # Display a pie chart of to visualize the payment method distribution
