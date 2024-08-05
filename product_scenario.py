@@ -114,7 +114,8 @@ class ProductScenario:
                     brush
                 )
 
-                trendline = base.transform_regression('Order Date', 'Sales').mark_line(color='red', strokeDash=[5, 5])
+                trendline = (base.transform_regression('Order Date', 'Sales')
+                             .mark_line(color='red', strokeDash=[5, 5]))
                 st.altair_chart(base + trendline)
             else:
                 st.write("No data available for Sales Trends Over Time.")

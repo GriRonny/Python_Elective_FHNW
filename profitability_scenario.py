@@ -77,7 +77,7 @@ def profit_logic():
                 profit_margin = (total_profit / total_sales) * 100
 
                 # Calculate expected profit for comparison
-                expected_profit = 0.50 * total_sales  # We assume  15% of total sales as expected profit (tobe changed)
+                expected_profit = 0.15 * total_sales  # We assume  15% of total sales as expected profit
                 profit_diff = total_profit - expected_profit
 
                 if profit_diff < 0:
