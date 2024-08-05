@@ -160,7 +160,7 @@ def customer_logic():
                 st.write(top_worst_cus)
 
             # Add a title above the bar chart
-            st.subheader("Favored payment method of all customers :credit_card:")
+            st.subheader("Favored payment method of customers :credit_card:")
 
             col3, col4 = st.columns(2)
             with col3:

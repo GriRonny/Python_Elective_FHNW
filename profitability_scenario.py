@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
+
 def profit_logic():
     st.header("Profitability Section")
 
