@@ -5,69 +5,95 @@ import sales_scenario
 import market_scenario
 import profitability_scenario
 import product_scenario
+import json
+import time
+from streamlit_lottie import st_lottie
 
-st.set_page_config(page_title="Business Dashboard", page_icon="📊", layout="centered", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Business Dashboard", page_icon="📊", layout="wide", initial_sidebar_state="expanded")
+
+# Load Lottie animation
+def load_lottiefile(filepath: str):
+    with open(filepath, 'r') as f:
+        return json.load(f)
+
+# Polarbear Lotti
+lottie_polar_bear = load_lottiefile("polarbear.json")
 
 # Initialize session state
 if 'view' not in st.session_state:
     st.session_state.view = 'upload'  # Create default view
 
-
 # Function to switch view
 def switch_view(view_name):
     st.session_state.view = view_name  # Create view according to passed parameter
-    st.rerun()  # Trigger rerun everytime function is called to update view accordingly.
-
+    st.experimental_rerun()  # Trigger rerun every time function is called to update view accordingly.
 
 st.session_state.switch_view = switch_view  # Make switch_view function accessible from outside
 
 if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
+    # Center the "Welcome" text
+    empty_col1, centered_col, empty_col2 = st.columns([1, 2, 1])
+    with centered_col:
+        st.markdown("## *Welcome* to Your Business Dashboard 📊")
 
-    st.header("Welcome to our dashboard!")
+    # Center the rest of the header text
+    empty_col1, centered_col, empty_col2 = st.columns([1, 2, 1])
+    with centered_col:
+        st.markdown("### Get Started with Your Business Insights!")
 
-    st.write("Please upload the latest **global_superstore.csv** file to start analyzing.")
+        st.write("")
 
-    # Define required columns as a constant variable
-    REQUIRED_COLUMNS = [
-        "Order Date", "Ship Date", "Ship Mode", "Customer Name", "Customer DOB", "Segment", "City", "State", "Country",
-        "Postal Code", "Market", "Region", "Product ID", "Category", "Sub-Category", "Product Name", "Sales",
-        "Quantity",
-        "Discount", "Profit", "Shipping Cost", "Order Priority", "Payment Method"
-    ]
+    empty_col1, col1, welcome_col, col2, empty_col2 = st.columns([1, 2, 0.01, 2, 1])
+    with col1:
+        st_lottie(lottie_polar_bear, height=400, key="polar_bear")
 
+    with col2:
+        st.markdown("#### Start by uploading your data file")
+        st.write("To upload your data file, please follow these steps:")
+        st.write("1. Select the latest `global_superstore.csv` file.")
+        st.write("2. Drag and drop the file into the area below or click 'Browse files' to select it.")
+        st.write("3. Click 'Start Analysing' to begin your data insights journey.")
 
-    def load_csv(file):
-        try:
-            df_check = pd.read_csv(file)
+        # Define required columns as a constant variable
+        REQUIRED_COLUMNS = [
+            "Order Date", "Ship Date", "Ship Mode", "Customer Name", "Customer DOB", "Segment", "City", "State", "Country",
+            "Postal Code", "Market", "Region", "Product ID", "Category", "Sub-Category", "Product Name", "Sales",
+            "Quantity", "Discount", "Profit", "Shipping Cost", "Order Priority", "Payment Method"
+        ]
 
-            # Check if each required column is in file. If not, add it to this list.
-            missing_columns = [col for col in REQUIRED_COLUMNS if col not in df_check.columns]
-            if missing_columns:
-                st.error(f"Missing columns: {', '.join(missing_columns)}. Please check your CSV file.")
-                return None  # Return an empty df
+        uploaded_csv = st.file_uploader("Drag and drop file here", type="csv")
+
+        def load_csv(file):
+            try:
+                df_check = pd.read_csv(file)
+
+                # Check if each required column is in file. If not, add it to this list.
+                missing_columns = [col for col in REQUIRED_COLUMNS if col not in df_check.columns]
+                if missing_columns:
+                    st.error(f"Missing columns: {', '.join(missing_columns)}. Please check your CSV file.")
+                    return None
+                else:
+                    return df_check
+
+            except Exception as e:
+                st.error("Something went wrong while uploading your file.")
+                print(f"Error loading CSV file: {e}")
+                return None
+
+        if uploaded_csv is not None:
+            with st.spinner("Processing file..."):
+                time.sleep(1)  # Simulate a delay for processing
+            df = load_csv(uploaded_csv)
+            if df is not None:
+                st.session_state.df = df  # Store dataframe in session state
+                st.success("CSV file successfully uploaded!")
+                st.write(df)
+                if st.button("Start Analysing"):
+                    switch_view('analysis')  # Call function to create "analysis" view and update view
             else:
-                return df_check  # Return valid df
-
-        except Exception as e:
-            st.error("Something went wrong while uploading your file.")
-            print(f"Error loading CSV file: {e}")
-            return None
-
-
-    uploaded_csv = st.file_uploader("Choose a CSV file to be processed.", type="csv")
-
-    if uploaded_csv is not None:
-        df = load_csv(uploaded_csv)  # Call load_csv method with .csv from file uploader as parameter
-        if df is not None:
-            st.session_state.df = df  # Store dataframe in session state
-            st.success("CSV file successfully loaded!")
-            st.write(df)
-            if st.button("Start Analysing"):
-                switch_view('analysis')  # Call function to create "analysis" view and update view
+                st.error("Failed to load CSV file.")
         else:
-            st.error("Failed to load CSV file.")
-    else:
-        st.info("Please upload a CSV file.")
+            st.info("Please upload a CSV file.")
 
 elif st.session_state.view == 'analysis':  # Here we display the "Upload" view if the session state == "analysis"
     st.header("Choose what you want to analyse!:chart_with_upwards_trend:")
