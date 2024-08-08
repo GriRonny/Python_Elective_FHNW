@@ -27,7 +27,7 @@ Before using the Business Dashboard, ensure you have the following installed:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/dein-benutzername/business-dashboard.git
+    git clone [https://github.com/dein-benutzername/business-dashboard.git](https://github.com/GriRonny/Python_Elective_FHNW.git)
     ```
 
 2. **Navigate to the project directory:**
@@ -59,7 +59,7 @@ Before using the Business Dashboard, ensure you have the following installed:
 2. **Run the application:**
 
     ```bash
-    streamlit run main.py
+    streamlit run main_dashboard.py
     ```
 
 3. **Upload your data:**
