@@ -16,7 +16,7 @@ def load_lottiefile(filepath: str):
     with open(filepath, 'r') as f:
         return json.load(f)
 
-# Polarbear Lotti
+# Polarbear Lotti animation
 lottie_polar_bear = load_lottiefile("polarbear.json")
 
 # Initialize session state
@@ -31,18 +31,19 @@ def switch_view(view_name):
 st.session_state.switch_view = switch_view  # Make switch_view function accessible from outside
 
 if st.session_state.view == 'upload':  # Display the "Upload" view if the session state == "upload"
-    # Center the "Welcome" text
+    # Centralization of "Welcome" text
     empty_col1, centered_col, empty_col2 = st.columns([1, 2, 1])
     with centered_col:
         st.markdown("## *Welcome* to Your Business Dashboard 📊")
 
-    # Center the rest of the header text
+    # Centralization of "submessage"
     empty_col1, centered_col, empty_col2 = st.columns([1, 2, 1])
     with centered_col:
         st.markdown("### Get Started with Your Business Insights!")
 
         st.write("")
 
+    # Alignment of Polar Bear Lotti Animation
     empty_col1, col1, welcome_col, col2, empty_col2 = st.columns([1, 2, 0.01, 2, 1])
     with col1:
         st_lottie(lottie_polar_bear, height=400, key="polar_bear")
@@ -52,7 +53,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
         st.write("To upload your data file, please follow these steps:")
         st.write("1. Select the latest `global_superstore.csv` file.")
         st.write("2. Drag and drop the file into the area below or click 'Browse files' to select it.")
-        st.write("3. Click 'Start Analysing' to begin your data insights journey.")
+        st.write("3. Click 'Start Analysing' to analyse your data.")
 
         # Define required columns as a constant variable
         REQUIRED_COLUMNS = [
@@ -81,8 +82,8 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
                 return None
 
         if uploaded_csv is not None:
-            with st.spinner("Processing file..."):
-                time.sleep(1)  # Simulate a delay for processing
+            with st.spinner("Processing file..."): # Spinner to symbolize processing of file
+                time.sleep(1)  # Add a delay for processing
             df = load_csv(uploaded_csv)
             if df is not None:
                 st.session_state.df = df  # Store dataframe in session state
@@ -93,14 +94,31 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
             else:
                 st.error("Failed to load CSV file.")
         else:
-            st.info("Please upload a CSV file.")
+            st.info("Please upload your CSV file.")
 
 elif st.session_state.view == 'analysis':  # Here we display the "Upload" view if the session state == "analysis"
-    st.header("Choose what you want to analyse!:chart_with_upwards_trend:")
-    st.write("Please choose from the following options. After that, click the 'Start Analyzing' button to display "
-             "your selected view and begin the analysis.")
+    # Sidebar content
+    st.sidebar.markdown("# Analyse with Ease!📈")
+    st.sidebar.markdown("### For detailed reports, please click 'Start Analyzing' under the desired category.")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.write("")
+    st.sidebar.markdown("### To restart the process with a new dataset, please click the button below to return to the upload page.")
 
-    # Create three parallel sections
+    if st.sidebar.button("Go back to Upload",
+                 type="secondary"):  # If this button is pressed, the user returns to the defined view.
+        switch_view('upload')  # switch_view function called with parameter "upload"
+        st.experimental_rerun()
+
+    # Create parallel sections
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
@@ -153,9 +171,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
         if st.button("Start analysing", key="button9"):
             switch_view('product')
 
-    if st.button("Go back to Upload",
-                 type="secondary"):  # If this button is pressed, the user returns to the defined view.
-        switch_view('upload')  # switch_view function called with parameter "upload"
+
 
 elif st.session_state.view == 'customer':  # Here we display the "Upload" view if the session state == "customer"
 
