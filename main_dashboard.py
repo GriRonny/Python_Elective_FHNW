@@ -171,7 +171,7 @@ elif st.session_state.view == 'analysis':  # Here we display the "Upload" view i
     col1, empty_col1, empty_col2, col2 = st.columns([7,1,1,1])
     with col1:
         st.markdown("# Your Analytics Dashboard")
-        st.markdown("### For detailed reports, please click 'Start Analyzing' under the desired category.")
+        st.markdown("### For detailed reports, please click 'Start Analysing' under the desired category.")
 
         st.markdown('<div class="container">', unsafe_allow_html=True)
 
