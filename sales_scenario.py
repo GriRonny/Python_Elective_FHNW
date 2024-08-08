@@ -120,6 +120,7 @@ class SalesScenario:
                         st.write("**Sub-Categories with the Lowest Sales Overall:**")
                         st.dataframe(flop_5_sub_categories)
 
+                    st.write("")
                     # Category specific analysis for selected categories
                     for category in selected_categories:
                         category_df = filtered_df[filtered_df['Category'] == category]

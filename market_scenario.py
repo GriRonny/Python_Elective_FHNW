@@ -49,7 +49,7 @@ def market_logic():
         # Filter the countries based on the selected markets
         country_list = df_filtered_market["Country"].unique().tolist()
 
-        st.sidebar.markdown("#### Filter by specific Country")
+        st.sidebar.markdown("#### Filter by specific Countries")
         countries = st.sidebar.multiselect(
             "Select Country",
             options=country_list,
