@@ -26,7 +26,7 @@ if 'view' not in st.session_state:
 # Function to switch view
 def switch_view(view_name):
     st.session_state.view = view_name  # Create view according to passed parameter
-    st.experimental_rerun()  # Trigger rerun every time function is called to update view accordingly.
+    st.rerun()  # Trigger rerun every time function is called to update view accordingly.
 
 st.session_state.switch_view = switch_view  # Make switch_view function accessible from outside
 

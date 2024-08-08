@@ -98,7 +98,7 @@ class ProductScenario:
 
             # Sales Trends Over Time
             st.subheader("Sales Trends Over Time")
-            sales_trends = df.resample('M', on='Order Date').sum(numeric_only=True)['Sales'].reset_index()
+            sales_trends = df.resample('ME', on='Order Date').sum(numeric_only=True)['Sales'].reset_index()
             if not sales_trends.empty:
                 sales_trends['Order Date'] = pd.to_datetime(sales_trends['Order Date'])
                 brush = alt.selection_interval(encodings=['x'])
@@ -110,7 +110,7 @@ class ProductScenario:
                 ).properties(
                     width=700,
                     height=400
-                ).add_selection(
+                ).add_params(
                     brush
                 )
 
