@@ -107,11 +107,11 @@ class SalesScenario:
                     col1, col2 = st.columns(2)
 
                     with col1:
-                        st.write("**Sub-Categories with the Highest Sales:**")
+                        st.write("**Sub-Categories with the Highest Sales Overall:**")
                         st.dataframe(top_5_sub_categories)
 
                     with col2:
-                        st.write("**Sub-Categories with the Lowest Sales:**")
+                        st.write("**Sub-Categories with the Lowest Sales Overall:**")
                         st.dataframe(flop_5_sub_categories)
 
                     # Category specific analysis for selected categories
