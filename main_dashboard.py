@@ -99,7 +99,7 @@ if st.session_state.view == 'upload':  # Display the "Upload" view if the sessio
 elif st.session_state.view == 'analysis':  # Here we display the "Upload" view if the session state == "analysis"
     # Sidebar content
     st.sidebar.markdown("# Analyse with Ease!📈")
-    st.sidebar.markdown("### For detailed reports, please click 'Start Analyzing' under the desired category.")
+    st.sidebar.markdown("### For detailed reports, please click 'Start Analysing' under the desired category.")
     st.sidebar.write("")
     st.sidebar.write("")
     st.sidebar.write("")

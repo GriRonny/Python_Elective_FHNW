@@ -4,26 +4,27 @@ import altair as alt
 
 
 def market_logic():
-    st.header("Market Analytics")
-
-    st.write("""
-            Welcome to the Market Analysis Section. Use the filters on the left sidebar to select the desired markets 
-            and years for analysis. You may also select specific countries to start a country-specific analysis 
-            which includes sales by category and sub-category as well as a top five list of the best-selling products 
-            for the selected countries.
-            """)
+    st.header("Welcome to the Market Analysis Section!")
+    st.write("")
 
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # Assigning session state df to variable "df"
 
         # Sidebar with checkboxes for markets
-        st.sidebar.header("Please Filter Here:")
-
+        st.sidebar.header("Filter Options")
+        st.sidebar.write(
+            """Use the filters below to customize your analysis by desired markets and year. """)
+        st.sidebar.write("""Additionally, a country-specific analysis can be performed,
+            including sales by category and sub-category, as well as a top five list of the best-selling products for the selected countries.""")
+        st.sidebar.write(
+            "The visualizations and data tables will dynamically update to reflect your selections.")
+        st.sidebar.write("")
         # Create list of unique markets
         market_list = df['Market'].unique().tolist()
 
+        st.sidebar.markdown("#### Filter by relevant Market(s)")
         market = st.sidebar.multiselect(
-            "Select Markets:",
+            "Select Market(s)",
             options=market_list,
             default=market_list
         )
@@ -35,8 +36,9 @@ def market_logic():
         # Create list of unique years
         years_list = df['Order Year'].unique().tolist()
 
+        st.sidebar.markdown("#### Filter by relevant Year(s)")
         year_select = st.sidebar.multiselect(
-            'Select Years:',
+            'Select Year(s)',
             options=years_list,
             default=years_list[-1]
         )
@@ -47,8 +49,9 @@ def market_logic():
         # Filter the countries based on the selected markets
         country_list = df_filtered_market["Country"].unique().tolist()
 
+        st.sidebar.markdown("#### Filter by specific Country")
         countries = st.sidebar.multiselect(
-            "Select Countries:",
+            "Select Country",
             options=country_list,
             #default=country_list[0] if country_list else []
         )
@@ -144,7 +147,8 @@ def market_logic():
         st.error("No data loaded. Please upload a CSV file.")
 
     with st.sidebar:
-        if st.button("Return to overview"):
+        st.write("")
+        if st.button("Return to Overview"):
             st.session_state.switch_view('analysis')
 
 

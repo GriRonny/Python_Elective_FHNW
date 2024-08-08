@@ -8,13 +8,9 @@ class SalesScenario:
         pass
 
     def sales_logic(self):
-        st.header("Sales Section")
+        st.header("Welcome to the Sales Analysis Section!")
+        st.write("")
 
-        st.write("""
-        Welcome to the Sales Analysis Section. Use the filters on the left sidebar to select the desired product 
-        categories and years. You may also adjust the order date range to narrow down the data further. 
-        The visualizations and data tables will update accordingly to reflect your selections.
-        """)
 
         if st.session_state.df is not None:  # Checking if session state df is not empty
             df = st.session_state.df  # Assigning session state df to variable "df"
@@ -29,16 +25,23 @@ class SalesScenario:
 
             # Sidebar for Sales Scenario
             with st.sidebar:
-                st.header("Filter Options")
+                with st.sidebar:
+                    st.header("Filter Options")
+                    st.write(
+                        """Use the filters below to customize your analysis by product category, year, and order date range.""")
+                    st.write(
+                        "The visualizations and data tables will dynamically update to reflect your selections.")
+                    st.write("")
 
+                st.markdown("#### Filter by Product Category")
                 selected_categories = st.multiselect(
-                    "Product Categories:",
+                    "Select Category",
                     options=category_list,
                     default=category_list
                 )
-
+                st.markdown("#### Filter by relevant Year(s)")
                 selected_years = st.multiselect(
-                    "Select Year(s):",
+                    "Select Year(s)",
                     options=order_years_list,
                     default=order_years_list[-1]
                 )
@@ -47,6 +50,8 @@ class SalesScenario:
                     df_filtered_by_year = df[df["Order Date"].dt.year.isin(selected_years)]
                     # Extract unique dates from "Order Date" column and convert to list
                     order_dates_list = df_filtered_by_year["Order Date"].dt.date.unique().tolist()
+
+                    st.markdown("#### Filter by Order Date Range")
 
                     date_range = st.slider(
                         "Order Date Range:",
@@ -57,7 +62,8 @@ class SalesScenario:
                     )
 
                 # Returns user to overview view
-                if st.button("Return to overview"):
+                st.write("")
+                if st.button("Return to Overview"):
                     st.session_state.switch_view('analysis')
 
             if selected_years:

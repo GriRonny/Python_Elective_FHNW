@@ -8,8 +8,8 @@ class ProductScenario:
         pass
 
     def product_logic(self):
-        st.header("Product Analytics")
-
+        st.header("Welcome to the Product Analysis Section!")
+        st.write("")
         # Error Handling here? Because data might be empty?
         if 'df' in st.session_state and st.session_state.df is not None:  # Checking if session state df is not empty
             df = st.session_state.df  # Assigning session state df to variable "df"
@@ -28,9 +28,14 @@ class ProductScenario:
 
             # Sidebar for Product Category Filter
             with st.sidebar:
-                st.header("Please Filter Here")
+                st.header("Filter Options")
+                st.write(
+                    """Use the filters below to customize your analysis by product category, sub-category, and year.""")
+                st.write(
+                    "The visualizations and data tables will dynamically update to reflect your selections.")
+                st.write("")
 
-                st.subheader("Filter by Product Category")
+                st.markdown("#### Filter by Product Category")
                 categories = df['Category'].unique()
                 selected_category = st.multiselect("Select Category", categories)
 
@@ -38,7 +43,7 @@ class ProductScenario:
                 if selected_category:
                     df = df[df['Category'].isin(selected_category)]
 
-                st.subheader("Filter by Sub-Category")
+                st.markdown("#### Filter by Sub-Category")
                 sub_categories = df['Sub-Category'].unique()
                 selected_sub_category = st.multiselect("Select Sub-Category", sub_categories)
 
@@ -46,10 +51,10 @@ class ProductScenario:
                 if selected_sub_category:
                     df = df[df['Sub-Category'].isin(selected_sub_category)]
 
-                st.subheader('Select relevant year')
+                st.markdown("#### Filter by relevant Year(s)")
                 df['Order Year'] = df['Order Date'].dt.year
                 unique_years = df['Order Year'].dropna().unique()
-                year_select = st.sidebar.multiselect('Select Year', options=unique_years)
+                year_select = st.sidebar.multiselect('Select Year(s)', options=unique_years)
 
                 if year_select:
                     df = df[df['Order Year'].isin(year_select)]
@@ -57,7 +62,7 @@ class ProductScenario:
             # Top-Selling Products & Least-Selling Products
             col1, col2 = st.columns(2)
             with col1:
-                st.subheader("Top-Selling Products")
+                st.subheader("Top-Selling Products:+1:")
                 top_selling = df.groupby('Product Name').sum(numeric_only=True)['Sales'].sort_values(
                     ascending=False).head(10).reset_index()
                 if not top_selling.empty:
@@ -77,7 +82,7 @@ class ProductScenario:
                     st.write("No data available for Top-Selling Products.")
 
             with col2:
-                st.subheader("Least-Selling Products")
+                st.subheader("Least-Selling Products:-1:")
                 least_selling = df.groupby('Product Name').sum(numeric_only=True)['Sales'].sort_values().head(
                     10).reset_index()
                 if not least_selling.empty:
@@ -280,6 +285,8 @@ class ProductScenario:
         else:
             st.error("No data loaded. Please upload a CSV file.")
 
+
         with st.sidebar:
-            if st.button("Return to overview"):
+            st.write("")
+            if st.button("Return to Overview"):
                 st.session_state.switch_view('analysis')

@@ -31,15 +31,12 @@ def create_age_column():
 
 
 def customer_logic():
-    st.header("Customer Analyses")
 
     # Error Handling here? Because data might be empty?
 
-    st.write("""
-            Welcome to the Customer Analysis Section. Use the filters on the left sidebar to adjust your query.
-            You may also adjust the age range and select specific year(s) to narrow down the data further. 
-            The visualizations and data tables will update accordingly to reflect your selections.
-            """)
+    st.header("Welcome to the Customer Analysis Section!")
+    st.write("")
+
 
     if st.session_state.df is not None:  # Checking if session state df is not empty
         df = st.session_state.df  # assigning session state df to variable "df"
@@ -53,7 +50,12 @@ def customer_logic():
 
         # Sidebar for Segment Filter
         with st.sidebar:
-            st.header("Please Filter Here")
+            st.header("Filter Options")
+            st.write(
+                """Use the filters below to customize your analysis by customer segment, gender, age range, and year.""")
+            st.write(
+                "The visualizations and data tables will dynamically update to reflect your selections.")
+            st.write("")
             st.subheader("Filter by Customer Segment")
             seg_type = df['Segment'].unique()
             selected_seg = [st.checkbox(segment, key=segment) for segment in seg_type]
@@ -63,7 +65,7 @@ def customer_logic():
 
         # Create sidebar menu for gender selection
         with st.sidebar:
-            st.subheader("Filter Gender")
+            st.subheader("Filter by Gender")
             gender_type = [g_type for g_type in df['Gender'].unique()]
             selected_gender = [st.checkbox(gender, key=gender) for gender in gender_type]
 
@@ -71,7 +73,7 @@ def customer_logic():
         selected_gender_list = [gender for gender, selected in zip(gender_type, selected_gender) if selected]
 
         with st.sidebar:
-            st.subheader("Filter Age Range")
+            st.subheader("Filter by Age Range")
             # Check if corporate checkbox is selected (Maybe different way possible?)
             if selected_seg[1]:
                 st.info('Note: Corporate customers have their age set to 0.', icon="ℹ️")
@@ -82,7 +84,7 @@ def customer_logic():
         selected_min_age, selected_max_age = age_slider
 
         # sidebar menu to select years
-        with st.sidebar.subheader('Select relevant year'):
+        with st.sidebar.subheader('Filter by relevant Year(s)'):
             # Ensure the sales date column is in datetime format
             df['Order Date'] = pd.to_datetime(df['Order Date'])
 
@@ -93,7 +95,7 @@ def customer_logic():
             unique_years = df['Order Year'].unique()
 
             # create sidebar selection with the years
-            year_select = st.sidebar.multiselect('Select Year', options=unique_years)
+            year_select = st.sidebar.multiselect('Select Year(s)', options=unique_years)
 
         # Prefilter the data based on the selected Age range via the age_slider!
         df = df[(df['Age'] >= selected_min_age) & (df['Age'] <= selected_max_age)]
@@ -159,6 +161,7 @@ def customer_logic():
             with col2:
                 st.subheader("Least profitable customers:-1:")
                 st.write(top_worst_cus)
+                st.write("")
 
             # Add a title above the bar chart
             st.subheader("Favored payment method of customers :credit_card:")
@@ -192,7 +195,8 @@ def customer_logic():
         st.error("No data loaded. Please upload a CSV file.")
 
     with st.sidebar:
-        if st.button("Return to overview"):
+        st.write("")
+        if st.button("Return to Overview"):
             st.session_state.switch_view('analysis')
 
 
