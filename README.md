@@ -56,7 +56,7 @@ Before using the Business Dashboard, ensure you have the following installed:
     cd Python_Elective_FHNW
     ```
 
-2. **Run the application:**
+2. **Run the application: enter in terminal**
 
     ```bash
     streamlit run main_dashboard.py
