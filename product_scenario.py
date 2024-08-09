@@ -10,7 +10,7 @@ class ProductScenario:
     def product_logic(self):
         st.header("Welcome to the Product Analysis Section!")
         st.write("")
-        # Error Handling here? Because data might be empty?
+        # Error handling, because data might be empty
         if 'df' in st.session_state and st.session_state.df is not None:  # Checking if session state df is not empty
             df = st.session_state.df  # Assigning session state df to variable "df"
 
