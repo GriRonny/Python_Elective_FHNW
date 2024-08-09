@@ -8,11 +8,14 @@ This Python-based dashboard is designed to provide comprehensive insights into y
 
 Before using the Business Dashboard, ensure you have the following installed:
 
-- **Python (version 3.x)**
+- **Python (Version 3.12)**
 - **Streamlit**: For creating the web application.
 - **Pandas**: For data manipulation and analysis.
 - **Altair**: For creating interactive visualizations.
 - **Matplotlib**: For additional charting options.
+- **Streamlit Lottie**: For integrating Lottie animations into Streamlit apps
+
+Please referer to the `requirements.txt` file for additional information and detailed version descriptions.
 
 ## Functionalities
 
