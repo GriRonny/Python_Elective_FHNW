@@ -33,7 +33,7 @@ Before using the Business Dashboard, ensure you have the following installed:
 2. **Navigate to the project directory:**
 
     ```bash
-    cd business-dashboard
+    cd Python_Elective_FHNW
     ```
 
 3. **Install the required Python packages:**
@@ -53,7 +53,7 @@ Before using the Business Dashboard, ensure you have the following installed:
 1. **Navigate to the project directory:**
 
     ```bash
-    cd business-dashboard
+    cd Python_Elective_FHNW
     ```
 
 2. **Run the application:**
